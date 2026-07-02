@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<!-- 
+  VISTA DE PRUEBAS / DASHBOARD DE CONTROL DE USUARIOS - PLATAFORMA SENA GDF
+  Esta plantilla Thymeleaf proporciona un entorno premium e interactivo con:
+  - Búsqueda avanzada de usuarios por ID o Nombre.
+  - Paginación dinámica del lado del servidor.
+  - CRUD completo integrado (con modal de edición y formulario de creación).
+  - Zona de carga masiva por arrastre de archivos (Drag & Drop) para CSV de usuarios.
+  - Configuración multilingüe ES/EN.
+-->
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SENA GDF — Gestión de Usuarios</title>
+  <!-- Fuentes estilizadas de Google Fonts: Outfit (títulos) y Plus Jakarta Sans (cuerpo) -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* Paleta de variables del sistema de diseño (Design Tokens) */
+    :root {
+      --bg: #080710; /* Fondo general de la aplicación */
+      --surface: #0f0d1e; /* Color base para elementos del dashboard */
+      --card: rgba(22, 19, 44, 0.7); /* Fondo translúcido para las tarjetas (Glassmorphism) */
+      --card-hover: rgba(30, 26, 60, 0.85); /* Efecto hover en tarjetas */
+      --border: rgba(94, 82, 155, 0.25);
+      --border-focus: rgba(142, 68, 173, 0.6);
+      --purple: #8e44ad; /* Color de énfasis primario */
+      --purple-glow: rgba(142, 68, 173, 0.25);
+      --green: #00b894; /* Color corporativo del SENA */
+      --green-glow: rgba(0, 184, 148, 0.2);
+      --text: #f3f0ff;
+      --text-muted: #9e9bb6;
+      --red: #d63031;
+      --font-serif: 'Outfit', sans-serif;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 0%, #15112a 0%, var(--bg) 70%);
+      color: var(--text);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--purple);
+    }
+
+    /* ── TOASTS ── */
+    #toasts {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 380px;
+      width: 100%;
+    }
+
+    .toast {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(15, 13, 30, 0.95);
+      backdrop-filter: blur(15px);
+      font-size: 0.85rem;
+      line-height: 1.5;
+      animation: toastIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateY(-12px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .toast.out {
+      animation: toastOut 0.3s ease forwards;
+    }
+
+    @keyframes toastOut {
+      to {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+    }
+
+    .t-success { border-left: 4px solid var(--green); }
+    .t-error { border-left: 4px solid var(--red); }
+    .t-warn { border-left: 4px solid #f39c12; }
+    .t-info { border-left: 4px solid var(--purple); }
+
+    .t-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .t-success .t-icon { color: var(--green); }
+    .t-error .t-icon { color: var(--red); }
+    .t-warn .t-icon { color: #f39c12; }
+    .t-info .t-icon { color: var(--purple); }
+
+    .t-title {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 2px;
+    }
+
+    .t-success .t-title { color: var(--green); }
+    .t-error .t-title { color: var(--red); }
+    .t-warn .t-title { color: #f39c12; }
+    .t-info .t-title { color: var(--purple); }
+
+    .t-msg {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    /* ── NAV ── */
+    nav {
+      border-bottom: 1px solid var(--border);
+      background: rgba(8, 7, 16, 0.8);
+      backdrop-filter: blur(20px);
+      padding: 0 60px;
+      display: flex;
+      align-items: center;
+      height: 76px;
+      gap: 32px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: var(--green);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand span {
+      color: var(--purple);
+      font-weight: 300;
+    }
+
+    .nav-sep {
+      width: 1px;
+      height: 28px;
+      background: var(--border);
+    }
+
+    .nav-tag {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .nav-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .lang-btns {
+      display: flex;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(15, 13, 30, 0.5);
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 6px 14px;
+      transition: all 0.3s;
+    }
+
+    .lang-btn.active {
+      background: var(--purple);
+      color: #fff;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #0f0d1e 0%, #17112c 50%, #0a0910 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 56px 60px;
+      display: flex;
+      align-items: center;
+      gap: 52px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 80% 50%, var(--purple-glow) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-img-wrap {
+      flex-shrink: 0;
+      width: 210px;
+      height: 210px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      box-shadow: 0 0 40px var(--purple-glow);
+      position: relative;
+      background: var(--surface);
+    }
+
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .hero-img:hover {
+      transform: scale(1.08);
+    }
+
+    .hero-img-btn {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(142, 68, 173, 0.9);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      transition: all 0.3s;
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-img-btn:hover {
+      background: var(--purple);
+      transform: translateY(-2px);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      color: var(--green);
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+
+    .hero-title em {
+      color: var(--purple);
+      font-style: normal;
+      background: linear-gradient(135deg, #a55eea, #8e44ad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 500px;
+      margin-bottom: 24px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-n {
+      font-family: var(--font-serif);
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--green);
+      line-height: 1;
+    }
+
+    .stat-l {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* ── LAYOUT ── */
+    .layout {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 48px 40px;
+      display: grid;
+      grid-template-columns: 1fr 440px;
+      gap: 44px;
+      align-items: start;
+    }
+
+    /* ── IZQUIERDA: Catálogo de Usuarios ── */
+    .catalog {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .catalog-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .catalog-header h2 {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .cat-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border) 0%, transparent 100%);
+    }
+
+    .cat-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--green);
+      background: var(--green-glow);
+      border: 1px solid rgba(0, 184, 148, 0.3);
+      padding: 4px 14px;
+      border-radius: 20px;
+    }
+
+    /* Barra de Búsqueda */
+    .search-bar {
+      display: flex;
+      gap: 12px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 18px;
+      align-items: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s;
+    }
+
+    .search-bar:focus-within {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 15px var(--purple-glow);
+    }
+
+    .search-icon {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    .search-bar input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .search-bar input::placeholder {
+      color: #615d83;
+    }
+
+    /* Grid de Usuarios */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .u-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    .u-card:hover {
+      border-color: var(--border-focus);
+      transform: translateY(-4px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+      background: var(--card-hover);
+    }
+
+    .u-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 4px;
+      background: linear-gradient(to bottom, #a55eea, var(--purple));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .u-card:hover::before {
+      opacity: 1;
+    }
+
+    .u-header {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .u-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #fff;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      flex-shrink: 0;
+    }
+
+    .u-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .u-name {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .u-doc-badge {
+      align-self: flex-start;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--purple);
+      background: var(--purple-glow);
+      border: 1px solid rgba(142, 68, 173, 0.25);
+      padding: 1px 8px;
+      border-radius: 6px;
+    }
+
+    .u-details {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255,255,255,0.04);
+      padding-top: 14px;
+    }
+
+    .u-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .u-item span {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .u-item p {
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .u-actions {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      display: flex;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .u-card:hover .u-actions {
+      opacity: 1;
+    }
+
+    .a-btn {
+      width: 28px;
+      height: 28px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+    }
+
+    .a-edit {
+      background: rgba(142, 68, 173, 0.9);
+      color: #fff;
+    }
+
+    .a-edit:hover {
+      background: #9b59b6;
+      transform: scale(1.1);
+    }
+
+    .a-del {
+      background: rgba(214, 48, 49, 0.9);
+      color: #fff;
+    }
+
+    .a-del:hover {
+      background: #ff7675;
+      transform: scale(1.1);
+    }
+
+    .grid-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 64px 20px;
+      color: var(--text-muted);
+      background: var(--card);
+      border: 1px dashed var(--border);
+      border-radius: 18px;
+    }
+
+    .grid-empty-icon {
+      font-size: 3rem;
+      color: var(--purple);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .grid-empty p {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    /* ── PANEL DERECHO: Formularios y Cargas ── */
+    .panel {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .f-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(10px);
+    }
+
+    .f-head {
+      padding: 18px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .f-head-icon {
+      color: var(--green);
+      font-size: 1.1rem;
+    }
+
+    .f-head h3 {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .f-body {
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .field input, .field select {
+      background: rgba(8, 7, 16, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      padding: 11px 14px;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .field input:focus, .field select:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 10px var(--purple-glow);
+    }
+
+    .field input::placeholder {
+      color: #4b4865;
+    }
+
+    .s-btn {
+      grid-column: 1 / -1;
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-purple {
+      background: linear-gradient(135deg, #a55eea 0%, var(--purple) 100%);
+      color: #fff;
+      box-shadow: 0 6px 20px var(--purple-glow);
+    }
+
+    .btn-purple:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(142, 68, 173, 0.4);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--purple);
+      border: 1px solid rgba(142, 68, 173, 0.4);
+    }
+
+    .btn-outline:hover {
+      background: var(--purple-glow);
+      color: #fff;
+    }
+
+    /* Sección de carga de archivos (Drag and Drop) */
+    .upload-area {
+      grid-column: 1 / -1;
+      border: 2px dashed var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: rgba(8, 7, 16, 0.3);
+      position: relative;
+    }
+
+    .upload-area:hover, .upload-area.dragover {
+      border-color: var(--purple);
+      background: rgba(142, 68, 173, 0.05);
+    }
+
+    .upload-icon {
+      font-size: 2.2rem;
+      color: var(--purple);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .upload-text {
+      font-size: 0.82rem;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .upload-hint {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    /* Resultados de Carga */
+    .upload-results {
+      grid-column: 1 / -1;
+      background: rgba(8, 7, 16, 0.5);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .result-summary {
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+    }
+
+    .res-col {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .res-val {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 800;
+    }
+
+    .res-val.ins { color: var(--green); }
+    .res-val.upd { color: var(--purple); }
+    .res-val.err { color: var(--red); }
+
+    .res-lbl {
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .result-errors {
+      max-height: 120px;
+      overflow-y: auto;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .err-row {
+      font-size: 0.72rem;
+      color: #ff7675;
+      background: rgba(214, 48, 49, 0.1);
+      padding: 6px 10px;
+      border-radius: 6px;
+      border-left: 3px solid var(--red);
+    }
+
+    /* Template Info Block */
+    .template-box {
+      grid-column: 1 / -1;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .template-box code {
+      display: block;
+      background: #000;
+      color: var(--green);
+      padding: 6px 10px;
+      border-radius: 6px;
+      margin-top: 6px;
+      overflow-x: auto;
+      font-family: monospace;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(8, 7, 16, 0.9);
+      margin-top: 60px;
+    }
+
+    .f-brand {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    @media(max-width:1080px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      nav, .hero, footer {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+    }
+
+    /* ── PAGINATION ── */
+    .pagination-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 24px;
+      padding: 10px 0;
+    }
+
+    .page-btn {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+      backdrop-filter: blur(10px);
+    }
+
+    .page-btn:hover:not(:disabled) {
+      border-color: var(--border-focus);
+      background: var(--card-hover);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 0 10px var(--purple-glow);
+    }
+
+    .page-btn.active {
+      background: var(--purple);
+      border-color: var(--purple);
+      color: #fff;
+      box-shadow: 0 0 12px var(--purple);
+    }
+
+    .page-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="toasts"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a class="brand" href="#">SENA<span>GDF</span></a>
+    <div class="nav-sep"></div>
+    <span class="nav-tag" data-es="Panel de Gestión de Usuarios" data-en="User Management Panel">Panel de Gestión de Usuarios</span>
+    <div class="nav-right">
+      <div class="lang-btns">
+        <button class="lang-btn active" id="btn-es" onclick="setLang('es')">🇨🇴 ES</button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">🇺🇸 EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-img-wrap">
+      <img class="hero-img" th:src="${imagenUrl}"
+        src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&q=80" alt="SENA GDF" />
+      <button class="hero-img-btn" onclick="cargarImagenREST()">↺ Actualizar</button>
+    </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow" data-es="✦ Control Administrativo" data-en="✦ Administrative Control">✦ Control Administrativo</div>
+      <h1 class="hero-title">
+        <span data-es="Gestión de" data-en="Management of">Gestión de</span><br />
+        <em data-es="Formadores e Instructores." data-en="Trainers and Instructors.">Formadores e Instructores.</em>
+      </h1>
+      <p class="hero-desc" data-es="Registra, edita, importa masivamente y administra los perfiles profesionales y grupos de formación del SENA."
+        data-en="Register, edit, bulk import and manage professional profiles and SENA training groups.">
+        Registra, edita, importa masivamente y administra los perfiles profesionales y grupos de formación del SENA.
+      </p>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-n" id="stat-total">0</span>
+          <span class="stat-l" data-es="Usuarios en BD" data-en="Users in DB">Usuarios en BD</span>
+        </div>
+        <div class="stat">
+          <span class="stat-n" id="stat-groups">0</span>
+          <span class="stat-l" data-es="Grupos" data-en="Groups">Grupos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAYOUT -->
+  <div class="layout">
+
+    <!-- SECCIÓN IZQUIERDA: LISTADO -->
+    <div class="catalog">
+      <div class="catalog-header">
+        <h2 data-es="Usuarios Registrados" data-en="Registered Users">Usuarios Registrados</h2>
+        <div class="cat-line"></div>
+        <span class="cat-badge" id="cat-badge">0 usuarios</span>
+      </div>
+
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input id="search-inp" type="text" 
+          data-placeholder-es="Buscar por ID o nombre..."
+          data-placeholder-en="Search by ID or name..." 
+          placeholder="Buscar por ID o nombre..." 
+          oninput="filtrarUsuariosLocal()" />
+      </div>
+
+      <div class="grid" id="grid">
+        <div class="grid-empty">
+          <span class="grid-empty-icon">◌</span>
+          <p data-es="Cargando usuarios..." data-en="Loading users...">Cargando usuarios...</p>
+        </div>
+      </div>
+      <div class="pagination-container" id="pagination-controls"></div>
+    </div>
+
+    <!-- SECCIÓN DERECHA: PANEL CRUD + ARCHIVOS -->
+    <div class="panel">
+
+      <!-- CARGA MASIVA DE ARCHIVOS -->
+      <div class="f-card">
+        <div class="f-head">
+          <span class="f-head-icon">📥</span>
+          <h3 data-es="Importar desde Archivo" data-en="Import from File">Importar desde Archivo</h3>
+        </div>
+        <div class="f-body">
+          <div class="upload-area" id="drop-zone" onclick="document.getElementById('file-inp').click()">
+            <span class="upload-icon">📁</span>
+            <span class="upload-text" data-es="Arrastra tu archivo aquí o haz clic" data-en="Drag your file here or click">Arrastra tu archivo aquí o haz clic</span>
+            <span class="upload-hint" data-es="Permite archivos .csv o .txt" data-en="Allows .csv or .txt files">Permite archivos .csv o .txt</span>
+            <input type="file" id="file-inp" class="file-input" accept=".csv,.txt" onchange="subirArchivo(this.files[0])" />
+          </div>
+
+          <!-- Resultados de importación (ocultos inicialmente) -->
+          <div class="upload-results" id="upload-res-box" style="display:none">
+            <div class="result-summary">
+              <div class="res-col">
+                <span class="res-val ins" id="res-ins">0</span>
+                <span class="res-lbl" data-es="Nuevos" data-en="New">Nuevos</span>
+              </div>
+              <div class="res-col">
+                <span class="res-val upd" id="res-upd">0</span>
+                <span class="res-lbl" data-es="Actualizados" data-en="Updated">Actualizados</span>
+              </div>
+              <div class="res-col">
+                <span class="res-val err" id="res-err">0</span>
+                <span class="res-lbl" data-es="Errores" data-en="Errors">Errores</span>
+              </div>
+            </div>
+            <div class="result-errors" id="res-err-list" style="display:none"></div>
+          </div>
+
+          <div class="template-box">
+            <span data-es="Formato CSV/TXT Esperado (Encabezado requerido):" data-en="Expected CSV/TXT Format (Header required):">Formato CSV/TXT Esperado (Encabezado requerido):</span>
+            <code>primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,celular,grupoFormacion,correoElectronico,contrasena</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- AGREGAR USUARIO -->
+      <div class="f-card">
+        <div class="f-head">
+          <span class="f-head-icon">✦</span>
+          <h3 data-es="Agregar Nuevo Usuario" data-en="Add New User">Agregar Nuevo Usuario</h3>
+        </div>
+        <div class="f-body">
+          <div class="field">
+            <label data-es="Primer Nombre" data-en="First Name">Primer Nombre</label>
+            <input id="a-pnom" placeholder="ej. María" />
+          </div>
+          <div class="field">
+            <label data-es="Segundo Nombre" data-en="Middle Name">Segundo Nombre</label>
+            <input id="a-snom" placeholder="ej. Inés" />
+          </div>
+          <div class="field">
+            <label data-es="Primer Apellido" data-en="First Last Name">Primer Apellido</label>
+            <input id="a-pape" placeholder="ej. Henao" />
+          </div>
+          <div class="field">
+            <label data-es="Segundo Apellido" data-en="Second Last Name">Segundo Apellido</label>
+            <input id="a-sape" placeholder="ej. Restrepo" />
+          </div>
+          <div class="field">
+            <label data-es="Tipo Documento" data-en="Doc Type">Tipo Documento</label>
+            <select id="a-tipo">
+              <option value="CC">CC (Cédula)</option>
+              <option value="TI">TI (Tarj. Identidad)</option>
+              <option value="CE">CE (Céd. Extranjera)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label data-es="Documento" data-en="ID Number">Documento</label>
+            <input id="a-doc" type="number" placeholder="ej. 1017123456" />
+          </div>
+          <div class="field">
+            <label data-es="Celular" data-en="Phone">Celular</label>
+            <input id="a-cel" type="number" placeholder="ej. 3001234567" />
+          </div>
+          <div class="field">
+            <label data-es="Grupo de Formación" data-en="Training Group">Grupo de Formación</label>
+            <input id="a-grp" placeholder="ej. ADSO-2758" />
+          </div>
+          <div class="field full">
+            <label data-es="Correo Electrónico" data-en="Email Address">Correo Electrónico</label>
+            <input id="a-em" type="email" placeholder="ej. maria@correo.com" />
+          </div>
+          <div class="field full">
+            <label data-es="Contraseña" data-en="Password">Contraseña</label>
+            <input id="a-pass" type="password" placeholder="••••••••" />
+          </div>
+          <button class="s-btn btn-purple" onclick="agregarUsuario()">
+            <span data-es="＋ Registrar Cuenta" data-en="＋ Register Account">＋ Registrar Cuenta</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- EDITAR USUARIO -->
+      <div class="f-card" id="edit-card">
+        <div class="f-head">
+          <span class="f-head-icon">✎</span>
+          <h3 data-es="Modificar Usuario" data-en="Modify User">Modificar Usuario</h3>
+        </div>
+        <div class="f-body">
+          <input id="m-id" type="hidden" />
+          <div class="field">
+            <label data-es="Primer Nombre" data-en="First Name">Primer Nombre</label>
+            <input id="m-pnom" placeholder="..." />
+          </div>
+          <div class="field">
+            <label data-es="Segundo Nombre" data-en="Middle Name">Segundo Nombre</label>
+            <input id="m-snom" placeholder="..." />
+          </div>
+          <div class="field">
+            <label data-es="Primer Apellido" data-en="First Last Name">Primer Apellido</label>
+            <input id="m-pape" placeholder="..." />
+          </div>
+          <div class="field">
+            <label data-es="Segundo Apellido" data-en="Second Last Name">Segundo Apellido</label>
+            <input id="m-sape" placeholder="..." />
+          </div>
+          <div class="field">
+            <label data-es="Tipo Documento" data-en="Doc Type">Tipo Documento</label>
+            <select id="m-tipo">
+              <option value="CC">CC</option>
+              <option value="TI">TI</option>
+              <option value="CE">CE</option>
+            </select>
+          </div>
+          <div class="field">
+            <label data-es="Documento" data-en="ID Number">Documento</label>
+            <input id="m-doc" type="number" placeholder="..." />
+          </div>
+          <div class="field">
+            <label data-es="Celular" data-en="Phone">Celular</label>
+            <input id="m-cel" type="number" placeholder="..." />
+          </div>
+          <div class="field">
+            <label data-es="Grupo de Formación" data-en="Training Group">Grupo de Formación</label>
+            <input id="m-grp" placeholder="..." />
+          </div>
+          <div class="field full">
+            <label data-es="Correo Electrónico" data-en="Email Address">Correo Electrónico</label>
+            <input id="m-em" type="email" placeholder="..." />
+          </div>
+          <div class="field full">
+            <label data-es="Nueva Contraseña (opcional)" data-en="New Password (optional)">Nueva Contraseña (opcional)</label>
+            <input id="m-pass" type="password" placeholder="Dejar en blanco si no se cambia" />
+          </div>
+          <button class="s-btn btn-outline" onclick="modificarUsuario()">
+            <span data-es="✎ Guardar Cambios" data-en="✎ Save Changes">✎ Guardar Cambios</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="f-brand">SENA GDF</span>
+    <span data-es="Plataforma de Gestión Integral de Formación" data-en="Comprehensive Training Management Platform">Plataforma de Gestión Integral de Formación</span>
+    <span style="color:var(--purple);font-weight:700;">Spring Boot · MySQL · Thymeleaf</span>
+  </footer>
+
+  <!-- Lógica Javascript para control de la UI, CRUD y Carga Masiva -->
+  <script th:inline="javascript">
+    // Estado de la aplicación y configuración de idioma
+    let lang = 'es';
+    let usuariosGlobal = [];
+    
+    // Configuración de paginación
+    let currentPage = 0;
+    let pageSize = 6;
+    let totalElements = 0;
+    let totalPages = 0;
+    
+    // Filtro de búsqueda por ID o Nombre
+    let searchVal = '';
+    
+    // Rutas de los Endpoints de la API REST de Usuarios
+    const API_LISTA = '/usuarios/lista';
+    const API_GUARDAR = '/usuarios/guardar';
+    const API_ACTUALIZAR = '/usuarios/actualizar';
+    const API_BORRAR = '/usuarios/borrar';
+    const API_UPLOAD = '/upload/usuarios';
+
+    // Degradados dinámicos generados para los avatares según el hash del nombre del usuario
+    const GRADIENTES = [
+      'linear-gradient(135deg, #6c5ce7, #a55eea)',
+      'linear-gradient(135deg, #00b894, #0984e3)',
+      'linear-gradient(135deg, #d63031, #e84393)',
+      'linear-gradient(135deg, #fdcb6e, #e17055)',
+      'linear-gradient(135deg, #2d3436, #636e72)',
+      'linear-gradient(135deg, #00cec9, #00b894)'
+    ];
+
+    /**
+     * Genera un código hash entero a partir de una cadena de texto para asignar un degradado único.
+     * @param {string} str Cadena de texto a la cual generar el hash.
+     * @returns {number} Código hash absoluto.
+     */
+    function hashStrCode(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      return Math.abs(hash);
+    }
+
+    /**
+     * Selecciona y retorna un degradado de la paleta según el hash del texto de entrada.
+     * @param {string} str Texto de entrada (ej: primer nombre y apellido del usuario).
+     * @returns {string} Declaración CSS de degradado lineal.
+     */
+    function gradientByStr(str) {
+      const idx = hashStrCode(str) % GRADIENTES.length;
+      return GRADIENTES[idx];
+    }
+
+    /* ── TOASTS ── */
+    function toast(tipo, titulo, msg) {
+      const icons = { success: '✓', error: '✕', warn: '⚠', info: 'i' };
+      const c = document.getElementById('toasts');
+      const el = document.createElement('div');
+      el.className = `toast t-${tipo}`;
+      el.innerHTML = `
+        <span class="t-icon">${icons[tipo]}</span>
+        <div style="flex:1">
+          <div class="t-title">${titulo}</div>
+          <div class="t-msg">${msg}</div>
+        </div>`;
+      el.onclick = () => { el.classList.add('out'); setTimeout(() => el.remove(), 300); };
+      c.appendChild(el);
+      setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 300); }, 4000);
+    }
+
+    let totalGroups = 0;
+
+    /* ── IDIOMA ── */
+    function setLang(l) {
+      lang = l;
+      document.getElementById('btn-es').classList.toggle('active', l === 'es');
+      document.getElementById('btn-en').classList.toggle('active', l === 'en');
+      document.querySelectorAll('[data-' + l + ']').forEach(el => el.textContent = el.getAttribute('data-' + l));
+      document.querySelectorAll('[data-placeholder-' + l + ']').forEach(el => el.placeholder = el.getAttribute('data-placeholder-' + l));
+      toast('info', l === 'es' ? 'Idioma cambiado' : 'Language changed', l === 'es' ? 'Ahora recibirás respuestas en Español' : 'You will now receive responses in English');
+      renderGrid(usuariosGlobal);
+      renderPagination();
+    }
+
+    /* ── RENDER GRID ── */
+    function renderGrid(usuarios) {
+      document.getElementById('stat-total').textContent = totalElements;
+      document.getElementById('stat-groups').textContent = totalGroups;
+      document.getElementById('cat-badge').textContent = totalElements + (lang === 'es' ? ' usuarios' : ' users');
+
+      const grid = document.getElementById('grid');
+      if (!usuarios.length) {
+        grid.innerHTML = `
+          <div class="grid-empty">
+            <span class="grid-empty-icon">◌</span>
+            <p>${lang === 'es' ? 'No se encontraron usuarios registrados' : 'No registered users found'}</p>
+          </div>`;
+        return;
+      }
+      grid.innerHTML = usuarios.map(u => {
+        const initials = ((u.primerNombre ? u.primerNombre[0] : '') + (u.primerApellido ? u.primerApellido[0] : '')).toUpperCase();
+        const grad = gradientByStr(u.primerNombre + u.primerApellido);
+        return `
+          <div class="u-card">
+            <div class="u-actions">
+              <button class="a-btn a-edit" onclick="precargarUsuario(${u.id}, '${u.primerNombre || ''}', '${u.segundoNombre || ''}', '${u.primerApellido || ''}', '${u.segundoApellido || ''}', '${u.tipoDocumento || 'CC'}', '${u.documento || ''}', '${u.celular || ''}', '${u.grupoFormacion || ''}', '${u.correoElectronico || ''}')">✎</button>
+              <button class="a-btn a-del" onclick="confirmarEliminar(${u.id}, '${u.primerNombre} ${u.primerApellido}')">✕</button>
+            </div>
+            <div class="u-header">
+              <div class="u-avatar" style="background:${grad}">${initials}</div>
+              <div class="u-meta">
+                <div class="u-name">${u.primerNombre} ${u.primerApellido}</div>
+                <div style="display: flex; gap: 4px; align-items: center;">
+                  <span class="u-doc-badge" style="color: var(--green); background: var(--green-glow); border-color: rgba(0, 184, 148, 0.25);">ID: ${u.id}</span>
+                  <span class="u-doc-badge">${u.tipoDocumento} ${u.documento}</span>
+                </div>
+              </div>
+            </div>
+            <div class="u-details">
+              <div class="u-item">
+                <span>${lang === 'es' ? 'Correo' : 'Email'}</span>
+                <p title="${u.correoElectronico}">${u.correoElectronico}</p>
+              </div>
+              <div class="u-item">
+                <span>${lang === 'es' ? 'Celular' : 'Phone'}</span>
+                <p>${u.celular || '—'}</p>
+              </div>
+              <div class="u-item">
+                <span>${lang === 'es' ? 'Grupo' : 'Group'}</span>
+                <p>${u.grupoFormacion || '—'}</p>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    /* ── RENDER PAGINATION ── */
+    function renderPagination() {
+      const container = document.getElementById('pagination-controls');
+      if (!container) return;
+
+      if (totalPages <= 1) {
+        container.innerHTML = '';
+        return;
+      }
+
+      let html = '';
+      
+      // Anterior Button
+      html += `<button class="page-btn" ${currentPage === 0 ? 'disabled' : ''} onclick="cambiarPagina(${currentPage - 1})">${lang === 'es' ? 'Anterior' : 'Previous'}</button>`;
+      
+      // Page numbers
+      for (let i = 0; i < totalPages; i++) {
+        html += `<button class="page-btn ${currentPage === i ? 'active' : ''}" onclick="cambiarPagina(${i})">${i + 1}</button>`;
+      }
+      
+      // Siguiente Button
+      html += `<button class="page-btn" ${currentPage === totalPages - 1 ? 'disabled' : ''} onclick="cambiarPagina(${currentPage + 1})">${lang === 'es' ? 'Siguiente' : 'Next'}</button>`;
+      
+      container.innerHTML = html;
+    }
+
+    function cambiarPagina(p) {
+      if (p >= 0 && p < totalPages) {
+        currentPage = p;
+        consultarUsuarios();
+      }
+    }
+
+    function precargarUsuario(id, pnom, snom, pape, sape, tipo, doc, cel, grp, em) {
+      document.getElementById('m-id').value = id;
+      document.getElementById('m-pnom').value = pnom;
+      document.getElementById('m-snom').value = snom;
+      document.getElementById('m-pape').value = pape;
+      document.getElementById('m-sape').value = sape;
+      document.getElementById('m-tipo').value = tipo;
+      document.getElementById('m-doc').value = doc;
+      document.getElementById('m-cel').value = cel;
+      document.getElementById('m-grp').value = grp;
+      document.getElementById('m-em').value = em;
+      document.getElementById('m-pass').value = '';
+
+      document.getElementById('edit-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      toast('info', lang === 'es' ? 'Usuario seleccionado' : 'User selected', `${pnom} ${pape}`);
+    }
+
+    /* ── CONSULTAR ── */
+    async function consultarUsuarios() {
+      try {
+        const url = `${API_LISTA}?page=${currentPage}&size=${pageSize}&search=${encodeURIComponent(searchVal)}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if (res.ok) {
+          usuariosGlobal = data.usuarios || [];
+          totalElements = data.total || 0;
+          totalPages = data.totalPages || 0;
+          totalGroups = data.totalGroups || 0;
+
+          // Edge case: if we are on a page beyond totalPages (e.g. after deletion)
+          if (currentPage > 0 && currentPage >= totalPages) {
+            currentPage = totalPages - 1;
+            consultarUsuarios();
+            return;
+          }
+
+          renderGrid(usuariosGlobal);
+          renderPagination();
+        } else {
+          toast('error', `✕ ${res.status}`, data.mensaje || (lang === 'es' ? 'Error al consultar usuarios' : 'Error querying users'));
+        }
+      } catch (e) {
+        toast('error', lang === 'es' ? '✕ Sin conexión' : '✕ No connection', lang === 'es' ? 'No se pudo conectar con el servidor Spring Boot' : 'Could not connect to Spring Boot server');
+      }
+    }
+
+    /* ── FILTRAR LOCAL ── */
+    function filtrarUsuariosLocal() {
+      searchVal = document.getElementById('search-inp').value.trim();
+      currentPage = 0;
+      consultarUsuarios();
+    }
+
+    /* ── CREAR USUARIO ── */
+    async function agregarUsuario() {
+      const pnom = document.getElementById('a-pnom').value.trim();
+      const snom = document.getElementById('a-snom').value.trim();
+      const pape = document.getElementById('a-pape').value.trim();
+      const sape = document.getElementById('a-sape').value.trim();
+      const tipo = document.getElementById('a-tipo').value;
+      const doc = document.getElementById('a-doc').value.trim();
+      const cel = document.getElementById('a-cel').value.trim();
+      const grp = document.getElementById('a-grp').value.trim();
+      const em = document.getElementById('a-em').value.trim();
+      const pass = document.getElementById('a-pass').value.trim();
+
+      if (!pnom || !pape || !doc || !em || !pass) {
+        toast('warn', lang === 'es' ? '⚠ Campos incompletos' : '⚠ Incomplete fields', lang === 'es' ? 'Primer nombre, primer apellido, documento, correo y contraseña son requeridos' : 'First name, first last name, document, email and password are required');
+        return;
+      }
+
+      const body = {
+        primerNombre: pnom,
+        segundoNombre: snom,
+        primerApellido: pape,
+        segundoApellido: sape,
+        tipoDocumento: tipo,
+        documento: doc,
+        celular: cel,
+        grupoFormacion: grp,
+        correoElectronico: em,
+        contrasena: pass
+      };
+
+      try {
+        const res = await fetch(API_GUARDAR, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept-Language': lang },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        if (res.ok) {
+          toast('success', lang === 'es' ? '✔ Cuenta Registrada' : '✔ Account Registered', lang === 'es' ? 'El usuario fue creado correctamente.' : 'User was successfully registered.');
+          ['a-pnom', 'a-snom', 'a-pape', 'a-sape', 'a-doc', 'a-cel', 'a-grp', 'a-em', 'a-pass'].forEach(id => document.getElementById(id).value = '');
+          consultarUsuarios();
+        } else {
+          toast('error', `✕ ${res.status}`, data.mensaje || data.detalle);
+        }
+      } catch (e) {
+        toast('error', '✕ Error', lang === 'es' ? 'Error de conexión' : 'Connection error');
+      }
+    }
+
+    /* ── MODIFICAR USUARIO ── */
+    async function modificarUsuario() {
+      const id = document.getElementById('m-id').value;
+      if (!id) {
+        toast('warn', '⚠', lang === 'es' ? 'Selecciona un usuario de la lista haciendo clic en el lápiz' : 'Select a user from the list by clicking the pencil icon');
+        return;
+      }
+
+      const pnom = document.getElementById('m-pnom').value.trim();
+      const snom = document.getElementById('m-snom').value.trim();
+      const pape = document.getElementById('m-pape').value.trim();
+      const sape = document.getElementById('m-sape').value.trim();
+      const tipo = document.getElementById('m-tipo').value;
+      const doc = document.getElementById('m-doc').value.trim();
+      const cel = document.getElementById('m-cel').value.trim();
+      const grp = document.getElementById('m-grp').value.trim();
+      const em = document.getElementById('m-em').value.trim();
+      const pass = document.getElementById('m-pass').value.trim();
+
+      const body = {
+        primerNombre: pnom,
+        segundoNombre: snom,
+        primerApellido: pape,
+        segundoApellido: sape,
+        tipoDocumento: tipo,
+        documento: doc,
+        celular: cel,
+        grupoFormacion: grp,
+        correoElectronico: em
+      };
+      if (pass) body.contrasena = pass;
+
+      try {
+        const res = await fetch(`${API_ACTUALIZAR}/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Accept-Language': lang },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        if (res.ok) {
+          toast('success', lang === 'es' ? '✔ Usuario Actualizado' : '✔ User Updated', lang === 'es' ? 'Cambios guardados con éxito' : 'Changes saved successfully');
+          ['m-id', 'm-pnom', 'm-snom', 'm-pape', 'm-sape', 'm-doc', 'm-cel', 'm-grp', 'm-em', 'm-pass'].forEach(id => document.getElementById(id).value = '');
+          consultarUsuarios();
+        } else {
+          toast('error', `✕ ${res.status}`, data.mensaje || data.detalle);
+        }
+      } catch (e) {
+        toast('error', '✕ Error', lang === 'es' ? 'Error al guardar cambios' : 'Error saving changes');
+      }
+    }
+
+    /* ── ELIMINAR USUARIO ── */
+    async function confirmarEliminar(id, nombre) {
+      if (confirm(lang === 'es' ? `¿Estás seguro de eliminar al usuario ${nombre}?` : `Are you sure you want to delete user ${nombre}?`)) {
+        try {
+          const res = await fetch(`${API_BORRAR}/${id}`, {
+            method: 'DELETE',
+            headers: { 'Accept-Language': lang }
+          });
+          const data = await res.json();
+          if (res.ok) {
+            toast('success', lang === 'es' ? '✔ Usuario Eliminado' : '✔ User Deleted', lang === 'es' ? 'El registro fue removido.' : 'Record was successfully removed.');
+            consultarUsuarios();
+          } else {
+            toast('error', `✕ ${res.status}`, data.mensaje || (lang === 'es' ? 'Error al eliminar' : 'Error deleting'));
+          }
+        } catch (e) {
+          toast('error', '✕ Error', lang === 'es' ? 'Error de conexión' : 'Connection error');
+        }
+      }
+    }
+
+    /* ── SUBIR ARCHIVO (CSV/TXT) ── */
+    async function subirArchivo(file) {
+      if (!file) return;
+
+      const fd = new FormData();
+      fd.append('archivo', file);
+
+      toast('info', lang === 'es' ? 'Procesando archivo...' : 'Processing file...', file.name);
+
+      try {
+        const res = await fetch(API_UPLOAD, {
+          method: 'POST',
+          body: fd
+        });
+        const data = await res.json();
+        
+        if (res.ok) {
+          // Mostrar resultados
+          document.getElementById('upload-res-box').style.display = 'flex';
+          document.getElementById('res-ins').textContent = data.insertados || 0;
+          document.getElementById('res-upd').textContent = data.actualizados || 0;
+          document.getElementById('res-err').textContent = data.errores || 0;
+
+          const errList = document.getElementById('res-err-list');
+          if (data.detalleErrores && data.detalleErrores.length > 0) {
+            errList.innerHTML = data.detalleErrores.map(err => `<div class="err-row">${err}</div>`).join('');
+            errList.style.display = 'flex';
+          } else {
+            errList.innerHTML = '';
+            errList.style.display = 'none';
+          }
+
+          toast('success', lang === 'es' ? '✔ Archivo Procesado' : '✔ File Processed', data.mensaje);
+          consultarUsuarios();
+        } else {
+          toast('error', lang === 'es' ? '✕ Error al Subir' : '✕ Upload Error', data.mensaje || (lang === 'es' ? 'El archivo no tiene el formato correcto' : 'The file does not have the correct format'));
+        }
+      } catch (e) {
+        toast('error', '✕ Error', lang === 'es' ? 'Error de comunicación con el servidor' : 'Server communication error');
+      }
+
+      // Reiniciar input de archivo
+      document.getElementById('file-inp').value = '';
+    }
+
+    /* ── ACTUALIZAR IMAGEN REST ── */
+    async function cargarImagenREST() {
+      try {
+        const res = await fetch('/nuevo/imagen', { headers: { 'Accept-Language': lang } });
+        const data = await res.json();
+        document.querySelector('.hero-img').src = data.imagenUrl;
+        toast('success', lang === 'es' ? 'Imagen actualizada' : 'Image updated', data.titulo || '');
+      } catch (e) { toast('error', 'Error', e.message); }
+    }
+
+    /* ── SETUP DRAG & DROP ── */
+    window.addEventListener('DOMContentLoaded', () => {
+      consultarUsuarios();
+
+      const dz = document.getElementById('drop-zone');
+      ['dragenter', 'dragover'].forEach(name => {
+        dz.addEventListener(name, e => {
+          e.preventDefault();
+          dz.classList.add('dragover');
+        }, false);
+      });
+      ['dragleave', 'drop'].forEach(name => {
+        dz.addEventListener(name, e => {
+          e.preventDefault();
+          dz.classList.remove('dragover');
+        }, false);
+      });
+      dz.addEventListener('drop', e => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        subirArchivo(files[0]);
+      }, false);
+    });
+  </script>
+</body>
+
+</html>

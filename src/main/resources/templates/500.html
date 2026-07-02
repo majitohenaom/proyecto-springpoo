@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<!-- 
+  VISTA DE ERROR 500 (INTERNAL SERVER ERROR) - PLATAFORMA SENA GDF
+  Esta plantilla se renderiza cuando ocurre una excepción no controlada en el servidor Spring Boot,
+  especialmente cuando hay fallos de conexión con la base de datos MySQL (XAMPP).
+  Utiliza Thymeleaf para interpolar dinámicamente detalles del diagnóstico de error.
+-->
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>500 — Error Interno del Servidor</title>
+    <!-- Importación de Google Fonts: Jost para texto general y DM Mono para trazas técnicas/monospaced -->
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;600;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+    <style>
+        /* Definición del sistema de diseño (Design Tokens) con variables CSS */
+        :root {
+          --bg:      #08070d; /* Fondo ultra oscuro */
+          --surface: #12101e; /* Color de superficie de las tarjetas */
+          --border:  #292344; /* Borde oscuro para separación sutil */
+          --text:    #f5f5fa; /* Texto principal de alto contraste */
+          --muted:   #9c97b8; /* Texto secundario o desaturado */
+          --red:     #ff4d4d; /* Color corporativo de alerta/error */
+          --red-glow: rgba(255, 77, 77, 0.2); /* Resplandor de alerta */
+          --purple:  #8e44ad; /* Color complementario para degradados */
+          --purple-glow: rgba(142, 68, 173, 0.25);
+          --orange:  #ff8c00; /* Color de advertencia para desconexión de DB */
+          --orange-glow: rgba(255, 140, 0, 0.2);
+          --green:   #2ecc71;
+          --font:    'Jost', sans-serif;
+          --mono:    'DM Mono', monospace;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+          background: radial-gradient(circle at 50% 50%, #150f28 0%, var(--bg) 100%);
+          color: var(--text);
+          font-family: var(--font);
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 40px 20px;
+          overflow-x: hidden;
+        }
+
+        /* Efecto visual de esfera luminosa de fondo */
+        .glow-sphere {
+          position: absolute;
+          width: 500px;
+          height: 500px;
+          background: var(--red-glow);
+          filter: blur(100px);
+          border-radius: 50%;
+          z-index: -1;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        /* Contenedor del ícono animado */
+        .icon-wrap {
+          margin-bottom: 20px;
+          font-size: 5.5rem;
+          filter: drop-shadow(0 0 20px var(--red-glow));
+          animation: pulse 2.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); opacity: 0.9; }
+          50% { transform: scale(1.06); opacity: 1; filter: drop-shadow(0 0 30px rgba(255, 77, 77, 0.4)); }
+        }
+
+        /* Código numérico de error gigante con gradiente de color moderno */
+        .error-code {
+          font-size: 10rem;
+          font-weight: 800;
+          line-height: 0.85;
+          letter-spacing: -0.05em;
+          background: linear-gradient(135deg, var(--red) 0%, var(--purple) 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          margin-bottom: 15px;
+          filter: drop-shadow(0 10px 25px rgba(0,0,0,0.6));
+        }
+
+        .error-title {
+          font-size: 2rem;
+          font-weight: 700;
+          color: var(--red);
+          margin-bottom: 15px;
+          text-align: center;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+        }
+
+        .error-desc {
+          font-size: 1.05rem;
+          color: var(--muted);
+          text-align: center;
+          max-width: 600px;
+          line-height: 1.7;
+          margin-bottom: 35px;
+        }
+
+        .highlight {
+          color: var(--text);
+          font-weight: 600;
+        }
+
+        /* Alerta específica cuando se determina que la Base de Datos está desconectada/apagada */
+        .db-alert {
+          background: rgba(255, 140, 0, 0.08);
+          border: 1px solid var(--orange);
+          border-radius: 12px;
+          padding: 16px 24px;
+          max-width: 580px;
+          width: 100%;
+          margin-bottom: 30px;
+          box-shadow: 0 10px 30px var(--orange-glow);
+          display: flex;
+          align-items: center;
+          gap: 15px;
+          animation: slideIn 0.5s ease-out;
+        }
+        @keyframes slideIn {
+          from { transform: translateY(20px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+        .db-alert-icon {
+          font-size: 2.2rem;
+        }
+        .db-alert-text h4 {
+          color: var(--orange);
+          font-size: 1rem;
+          font-weight: 700;
+          margin-bottom: 4px;
+        }
+        .db-alert-text p {
+          color: var(--text);
+          font-size: 0.9rem;
+          line-height: 1.4;
+        }
+
+        /* Tarjeta con los metadatos técnicos del error */
+        .error-card {
+          background: rgba(18, 16, 30, 0.75);
+          backdrop-filter: blur(12px);
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          padding: 24px 32px;
+          max-width: 580px;
+          width: 100%;
+          margin-bottom: 35px;
+          box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .error-card-title {
+          font-size: .8rem;
+          color: var(--red);
+          font-family: var(--font);
+          font-weight: 700;
+          letter-spacing: .25em;
+          text-transform: uppercase;
+          margin-bottom: 18px;
+          border-bottom: 1px solid var(--border);
+          padding-bottom: 12px;
+        }
+        .error-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 12px 0;
+          border-bottom: 1px solid rgba(41, 35, 68, 0.5);
+          font-size: .9rem;
+          font-family: var(--mono);
+        }
+        .error-row:last-child { border-bottom: none; }
+        .error-row .key   { color: var(--muted); }
+        .error-row .value { color: var(--text); font-weight: 500; text-align: right; word-break: break-all; }
+        
+        .pill {
+          padding: 3px 12px;
+          border-radius: 6px;
+          font-size: .75rem;
+          font-weight: 700;
+          background: var(--red);
+          color: white;
+        }
+
+        /* Botones de acción rápida */
+        .btn-group { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        .btn {
+          padding: 12px 28px;
+          border-radius: 10px;
+          border: none;
+          cursor: pointer;
+          font-family: var(--font);
+          font-size: .95rem;
+          font-weight: 600;
+          text-decoration: none;
+          transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+        }
+        .btn-primary { 
+            background: linear-gradient(135deg, var(--red) 0%, #c0392b 100%); 
+            color: white;
+            box-shadow: 0 4px 15px var(--red-glow);
+        }
+        .btn-secondary { 
+            background: rgba(255, 255, 255, 0.05); 
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn:hover { 
+            transform: translateY(-3px) scale(1.02);
+            filter: brightness(1.1);
+        }
+
+        footer {
+          margin-top: 60px;
+          font-size: .75rem;
+          color: var(--muted);
+          text-align: center;
+          letter-spacing: 1px;
+        }
+        footer span { color: var(--red); font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<!-- Esfera decorativa de fondo -->
+<div class="glow-sphere"></div>
+
+<!-- Ícono de alerta animado -->
+<div class="icon-wrap">⚠️</div>
+
+<!-- Código de estado HTTP -->
+<div class="error-code">500</div>
+
+<!-- Título oficial del error -->
+<div class="error-title">Error Interno del Servidor</div>
+
+<div class="error-desc">
+    El <span class="highlight">Error 500 (Internal Server Error)</span> es un código de estado genérico que indica que el servidor web encontró un fallo inesperado y no pudo completar la solicitud. Como es un problema del lado del servidor, el fallo <span class="highlight">no proviene de tu dispositivo o conexión</span>, lo cual sucede típicamente cuando se detecta que la base de datos está apagada o inaccesible.
+</div>
+
+<!-- Alerta cuando el controlador inyecta la bandera 'bdApagada=true' al modelo de Thymeleaf -->
+<div class="db-alert" th:if="${bdApagada}">
+    <div class="db-alert-icon">🔌</div>
+    <div class="db-alert-text">
+        <h4>Base de Datos no Disponible</h4>
+        <p>El servidor detectó que la base de datos (MySQL) está apagada o inaccesible. Por favor, inicia el servicio de MySQL en el panel de control de XAMPP.</p>
+    </div>
+</div>
+
+<!-- Tarjeta de diagnóstico técnico: Imprime variables enviadas desde CustomErrorController -->
+<div class="error-card">
+    <div class="error-card-title">Technical Logs / GDF Core Diagnostic</div>
+
+    <!-- Muestra el código HTTP mapeado -->
+    <div class="error-row">
+        <span class="key">Status Code</span>
+        <span class="value">
+            <span class="pill">500</span>
+        </span>
+    </div>
+
+    <!-- Muestra el mensaje detallado de la excepción (${message}) -->
+    <div class="error-row">
+        <span class="key">Error Diagnostic</span>
+        <span class="value" th:text="${message}">Ha ocurrido un problema interno en el servidor.</span>
+    </div>
+
+    <!-- Muestra la URI solicitada que falló (${path}) -->
+    <div class="error-row">
+        <span class="key">Requested Path</span>
+        <span class="value" th:text="${path}">—</span>
+    </div>
+
+    <!-- Muestra la marca de tiempo de cuándo ocurrió el fallo (${timestamp}) -->
+    <div class="error-row">
+        <span class="key">Timestamp</span>
+        <span class="value" th:text="${timestamp}">—</span>
+    </div>
+</div>
+
+<!-- Grupo de botones con llamadas de retorno -->
+<div class="btn-group">
+    <!-- Enlace al panel principal -->
+    <a href="/formulario" class="btn btn-primary">🏠 Volver al Inicio</a>
+    <!-- Retorna a la página anterior mediante el historial del navegador para reintentar la acción -->
+    <a href="javascript:history.back()" class="btn btn-secondary">↩ Reintentar</a>
+</div>
+
+<!-- Pie de página informativo -->
+<footer>
+    <p>Plataforma <span>SENA GDF</span> · Gestión de Formación Profesional</p>
+</footer>
+
+</body>
+</html>

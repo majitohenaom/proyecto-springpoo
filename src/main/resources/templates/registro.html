@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<!-- 
+  VISTA DE REGISTRO - PLATAFORMA SENA GDF
+  Esta plantilla Thymeleaf proporciona la interfaz para que los nuevos aprendices
+  u usuarios se registren en la plataforma. Envía los datos capturados al controlador
+  mediante una petición POST HTTP.
+-->
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Usuario - SENA GDF</title>
+    <style>
+        /* Estilos generales del fondo y centrado del contenedor */
+        body{
+            background: linear-gradient(135deg,#28a745,#2d3436);
+            margin:0;
+            font-family:Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Contenedor principal del formulario de registro */
+        .container{
+            width:100%;
+            max-width: 900px;
+            background:#2d3436;
+            padding:40px;
+            border-radius:20px;
+            color:white;
+            box-shadow: 0px 20px 40px rgba(0,0,0,0.5);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Grilla responsive para distribuir los campos en dos columnas */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* En pantallas móviles se colapsa a una sola columna */
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        input,select{
+            width:100%;
+            padding:12px;
+            border-radius:8px;
+            border:none;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 8px rgba(40, 167, 69, 0.6);
+        }
+
+        button{
+            background:#28a745;
+            border:none;
+            padding:14px;
+            color:white;
+            width:100%;
+            border-radius:8px;
+            cursor:pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-top: 25px;
+            grid-column: 1 / -1; /* Ocupa las dos columnas de la grilla */
+        }
+
+        button:hover{
+            background:#218838;
+            transform: scale(1.01);
+            box-shadow: 0 0 10px rgba(40, 167, 69, 0.7);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        h2 { margin: 0; }
+
+        .btn-volver {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .btn-volver:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+        <h2>Registrar Usuario</h2>
+        <!-- Enlace para retornar al Login mediante Thymeleaf dynamic path -->
+        <a th:href="@{/login}" class="btn-volver">← Volver al Login</a>
+    </header>
+
+    <!-- 
+      Formulario de Registro.
+      Envía los datos mediante método POST al endpoint '/guardar'.
+    -->
+    <form th:action="@{/guardar}" method="post">
+
+        <div class="form-grid">
+            <!-- Nombres -->
+            <input type="text" name="primerNombre" placeholder="Primer Nombre" required>
+            <input type="text" name="segundoNombre" placeholder="Segundo Nombre">
+            
+            <!-- Apellidos -->
+            <input type="text" name="primerApellido" placeholder="Primer Apellido" required>
+            <input type="text" name="segundoApellido" placeholder="Segundo Apellido">
+
+            <!-- Identificación -->
+            <select name="tipoDocumento" required>
+                <option value="">Tipo Documento</option>
+                <option value="CC">Cédula de Ciudadanía</option>
+                <option value="TI">Tarjeta de Identidad</option>
+                <option value="CE">Cédula de Extranjería</option>
+                <option value="PA">Pasaporte</option>
+            </select>
+            <input type="number" name="documento" placeholder="Documento" required>
+            
+            <!-- Contacto y Ficha de Formación -->
+            <input type="text" name="celular" placeholder="Celular" required>
+            <input type="text" name="grupoFormacion" placeholder="Grupo Formación">
+
+            <!-- Credenciales de autenticación -->
+            <input type="email" name="correoElectronico" placeholder="Correo Electrónico" required>
+            <input type="password" name="contrasena" placeholder="Contraseña" required>
+
+            <!-- Botón de Envío -->
+            <button type="submit">Registrar</button>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

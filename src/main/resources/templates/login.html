@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<!-- 
+  VISTA DE INICIO DE SESIÓN (LOGIN) - PLATAFORMA SENA GDF
+  Esta plantilla Thymeleaf proporciona la interfaz de inicio de sesión de los usuarios.
+  Permite autenticarse mediante Tipo de Documento, Número de Documento y Contraseña.
+-->
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar Sesión - SENA GDF</title>
+    <style>
+        /* Estilos generales del fondo con un degradado en diagonal representativo del SENA */
+        body {
+            background: linear-gradient(135deg, #28a745, #2d3436);
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Contenedor central flotante del login */
+        .box {
+            background: #2d3436;
+            padding: 40px;
+            border-radius: 20px;
+            width: 380px;
+            max-width: 95%;
+            color: white;
+            box-shadow: 0px 20px 40px rgba(0,0,0,0.5);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 1.6rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 11px;
+            margin-bottom: 14px;
+            border-radius: 8px;
+            border: none;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        /* Efectos visuales de enfoque y hover */
+        input:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 8px rgba(40, 167, 69, 0.6);
+        }
+
+        input:hover, select:hover {
+            box-shadow: 0 0 0 4px rgba(40, 167, 69, 0.4);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-top: 4px;
+        }
+
+        button:hover {
+            background: #218838;
+            transform: scale(1.02);
+            box-shadow: 0 0 10px rgba(40, 167, 69, 0.7);
+        }
+
+        /* Estilos para alertas de validación o fallos de autenticación */
+        .alert {
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .alert-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .link-registro {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .link-registro a {
+            color: #28a745;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .link-registro a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animación suave de entrada */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+
+    <h2>Iniciar Sesión</h2>
+
+    <!-- Mensaje de Error inyectado desde el servidor en caso de credenciales inválidas o rate limiting -->
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <!-- 
+      Formulario de Autenticación.
+      Envía una petición POST al endpoint '/ingresar' mapeado por Spring Security.
+    -->
+    <form th:action="@{/ingresar}" method="post">
+        <!-- Campo: Tipo de Documento -->
+        <select name="tipoDocumento" required>
+            <option value="">Tipo de Documento</option>
+            <option value="CC">Cédula de Ciudadanía</option>
+            <option value="TI">Tarjeta de Identidad</option>
+            <option value="CE">Cédula de Extranjería</option>
+            <option value="PA">Pasaporte</option>
+        </select>
+
+        <!-- Campo: Número de Documento (login primario) -->
+        <input type="number" name="documento" placeholder="Número de Documento" required>
+        
+        <!-- Campo: Contraseña -->
+        <input type="password" name="contrasena" placeholder="Contraseña" required>
+
+        <!-- Botón de Envío -->
+        <button type="submit">Ingresar</button>
+    </form>
+
+    <!-- Enlace alternativo para redirección al registro de nuevos usuarios -->
+    <div class="link-registro">
+        ¿No tienes cuenta? <a th:href="@{/registro}">Regístrate aquí</a>
+    </div>
+
+    <!-- Botón decorado de depuración para simular caída de la base de datos MySQL (Error 500) -->
+    <div style="margin-top: 20px; text-align: center; font-size: 0.85rem;">
+        <a href="/generar-error-500" style="color: #ff4d4d; text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border: 1px dashed rgba(255, 77, 77, 0.4); border-radius: 8px; background: rgba(255, 77, 77, 0.05); transition: all 0.3s;" onmouseover="this.style.background='rgba(255, 77, 77, 0.15)'" onmouseout="this.style.background='rgba(255, 77, 77, 0.05)'">
+            ⚠️ Simular Error 500 (Base de Datos Apagada)
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>

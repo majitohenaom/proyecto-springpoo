@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.5.0</version>
+		<relativePath/>
+	</parent>
+	<groupId>com.sena</groupId>
+	<artifactId>springpoo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>springpoo</name>
+	<description>Demo project for Spring Boot</description>
+	<url/>
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer/>
+	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
+	<!-- Sección de Propiedades: Define la versión de Java del proyecto (Java 17) -->
+	<properties>
+		<java.version>17</java.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+	</properties>
+
+	<!-- Bloque de Dependencias: Librerías necesarias para compilar y ejecutar la aplicación -->
+	<dependencies>
+	
+		<!-- Dependencia base de Spring Boot. Se excluye el starter-logging estándar
+		     para poder configurar y usar Log4j2 como framework de logging de alto rendimiento. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Starter para desarrollo web: incluye soporte para controladores REST, Spring MVC y Tomcat embebido -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- Starter de Thymeleaf: Motor de plantillas HTML del lado del servidor utilizado para renderizar las vistas -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<!-- Bucket4j Core: Librería utilizada para implementar el filtro de limitación de tasa (Rate Limiting) 
+		     por IP, protegiendo los endpoints contra ataques de denegación de servicio o abusos. -->
+		<dependency>
+			<groupId>com.bucket4j</groupId>
+			<artifactId>bucket4j-core</artifactId>
+			<version>8.10.1</version>
+		</dependency>
+
+		<!-- Starter de JDBC: Provee soporte para interactuar con bases de datos relacionales usando JdbcTemplate. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+
+		<!-- Log4j2: Framework avanzado de registro de eventos configurado mediante log4j2.xml
+		     para auditoría CRUD e historial de errores. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+
+		<!-- Conector de Base de Datos MySQL: Driver JDBC oficial de MySQL para la conexión con el servidor XAMPP. -->
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Base de Datos H2: Motor de base de datos SQL en memoria. Se incluye como alternativa rápida de desarrollo. -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Starter de Pruebas: Provee soporte para pruebas unitarias e integración con JUnit, Mockito, etc. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Spring Security: Starter oficial para asegurar la aplicación. Provee los filtros de autenticación y 
+		     encriptación de contraseñas. -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+	</dependencies>
+
+	<!-- Configuración de Construcción: Configura los plugins del proceso de empaquetado de Maven -->
+	<build>
+		<plugins>
+			<!-- Plugin de Spring Boot para empaquetar la aplicación en un JAR ejecutable "fat-JAR" -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

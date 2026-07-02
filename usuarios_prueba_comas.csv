@@ -1,0 +1,4 @@
+primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,celular,grupoFormacion,correoElectronico,contrasena
+Juan,Carlos,Perez,Lopez,CC,1017111222,3001234567,ADSO-2758,juan@correo.com,juan123
+Maria,,Henao,Restrepo,CC,1017333444,3109876543,ADSO-2758,maria@correo.com,maria123
+Edwy,Esteban,Prada,Prada,CE,987654321,3151112233,ADSO-2758,edwy@correo.com,edwy123

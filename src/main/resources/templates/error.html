@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<!-- 
+  VISTA DE ERRORES GENERALES (404 Not Found, 403 Forbidden, etc.) - PLATAFORMA SENA GDF
+  Renderiza y muestra información dinámica para códigos de error HTTP distintos a 500.
+  Recibe del CustomErrorController los datos del estado HTTP y los muestra usando Thymeleaf.
+-->
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${status} + ' — Error SENA GDF'">Error</title>
+    <!-- Importación de fuentes de Google Fonts (Jost y DM Mono) -->
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;600;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+    <style>
+        /* Definición del sistema de variables de color y tipografía de la UI */
+        :root {
+          --bg:      #0b0a12; /* Morado muy oscuro de fondo */
+          --surface: #161424; /* Color para las tarjetas del visor técnico */
+          --border:  #2f2a4a;
+          --text:    #f0f0f5;
+          --muted:   #a09abc;
+          --purple:  #8e44ad;
+          --purple-glow: rgba(142, 68, 173, 0.3);
+          --green:   #2ecc71; /* Color representativo de SENA (Verde) */
+          --green-glow: rgba(46, 204, 113, 0.2);
+          --red:     #e74c3c;
+          --font:    'Jost', sans-serif;
+          --mono:    'DM Mono', monospace;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+          background: radial-gradient(circle at 50% 50%, #1a1532 0%, var(--bg) 100%);
+          color: var(--text);
+          font-family: var(--font);
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 40px 20px;
+          overflow-x: hidden;
+        }
+
+        /* Elemento decorativo de brillo de fondo */
+        .glow-sphere {
+          position: absolute;
+          width: 400px;
+          height: 400px;
+          background: var(--purple-glow);
+          filter: blur(80px);
+          border-radius: 50%;
+          z-index: -1;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+
+        /* Contenedor e iconografía animada de alerta */
+        .icon-wrap {
+          margin-bottom: 24px;
+          font-size: 5rem;
+          filter: drop-shadow(0 0 15px var(--purple-glow));
+          animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); opacity: 0.9; }
+          50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        /* Formateador numérico de código de error */
+        .error-code {
+          font-size: 9rem;
+          font-weight: 800;
+          line-height: 0.9;
+          letter-spacing: -0.05em;
+          background: linear-gradient(135deg, var(--purple) 0%, var(--green) 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          margin-bottom: 12px;
+          filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+        }
+
+        .error-title {
+          font-size: 1.8rem;
+          font-weight: 600;
+          color: var(--green);
+          margin-bottom: 12px;
+          text-align: center;
+          letter-spacing: 1px;
+        }
+
+        .error-desc {
+          font-size: 1rem;
+          color: var(--muted);
+          text-align: center;
+          max-width: 500px;
+          line-height: 1.6;
+          margin-bottom: 40px;
+        }
+
+        /* Tarjeta de visualización de detalles del sistema para depuración */
+        .error-card {
+          background: rgba(22, 20, 36, 0.7);
+          backdrop-filter: blur(10px);
+          border: 1px solid var(--border);
+          border-radius: 16px;
+          padding: 24px 32px;
+          max-width: 560px;
+          width: 100%;
+          margin-bottom: 32px;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .error-card-title {
+          font-size: .75rem;
+          color: var(--green);
+          font-family: var(--font);
+          font-weight: 700;
+          letter-spacing: .2em;
+          text-transform: uppercase;
+          margin-bottom: 18px;
+          border-bottom: 1px solid var(--border);
+          padding-bottom: 12px;
+        }
+        .error-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 10px 0;
+          border-bottom: 1px solid rgba(47, 42, 74, 0.4);
+          font-size: .88rem;
+          font-family: var(--mono);
+        }
+        .error-row:last-child { border-bottom: none; }
+        .error-row .key   { color: var(--muted); }
+        .error-row .value { color: var(--text); font-weight: 500; }
+        
+        .pill {
+          padding: 3px 12px;
+          border-radius: 6px;
+          font-size: .75rem;
+          font-weight: 700;
+          background: var(--purple);
+          color: white;
+        }
+
+        /* Contenedores de botones de navegación */
+        .btn-group { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        .btn {
+          padding: 12px 28px;
+          border-radius: 10px;
+          border: none;
+          cursor: pointer;
+          font-family: var(--font);
+          font-size: .9rem;
+          font-weight: 600;
+          text-decoration: none;
+          transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+        }
+        .btn-primary { 
+            background: linear-gradient(135deg, var(--green) 0%, #27ae60 100%); 
+            color: #000;
+            box-shadow: 0 4px 15px var(--green-glow);
+        }
+        .btn-secondary { 
+            background: rgba(142, 68, 173, 0.1); 
+            color: var(--purple);
+            border: 1px solid var(--purple);
+        }
+        .btn:hover { 
+            transform: translateY(-3px) scale(1.02);
+            filter: brightness(1.1);
+        }
+
+        footer {
+          margin-top: 50px;
+          font-size: .75rem;
+          color: var(--muted);
+          text-align: center;
+          letter-spacing: 1px;
+        }
+        footer span { color: var(--green); font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<!-- Brillo circular de fondo -->
+<div class="glow-sphere"></div>
+
+<!-- Iconografía de advertencia -->
+<div class="icon-wrap">⚠️</div>
+
+<!-- Código de estado HTTP dinámico (ej: 404, 403) -->
+<div class="error-code" th:text="${status}">404</div>
+
+<!-- Tipo de error correspondiente (ej: Not Found, Forbidden) -->
+<div class="error-title" th:text="${error}">Error Detectado</div>
+
+<!-- Mensaje descriptivo amigable del error -->
+<div class="error-desc" th:text="${message}">
+    Lo sentimos, el recurso que buscas no está disponible o ha ocurrido un problema técnico en la plataforma SENA GDF.
+</div>
+
+<!-- Tarjeta de metadatos técnicos procesada por Thymeleaf -->
+<div class="error-card">
+    <div class="error-card-title">Technical Logs / SENA GDF System</div>
+
+    <!-- Código HTTP de la respuesta de error -->
+    <div class="error-row">
+        <span class="key">Status Code</span>
+        <span class="value">
+            <span class="pill" th:text="${status}">404</span>
+        </span>
+    </div>
+
+    <!-- Nombre del error provisto por el servidor -->
+    <div class="error-row">
+        <span class="key">Error Type</span>
+        <span class="value" th:text="${error}">Not Found</span>
+    </div>
+
+    <!-- URI de la ruta solicitada -->
+    <div class="error-row">
+        <span class="key">Path</span>
+        <span class="value" th:text="${path}">/internal-system</span>
+    </div>
+
+    <!-- Instante de tiempo en formato UTC en el que se generó la vista de error -->
+    <div class="error-row">
+        <span class="key">Time UTC</span>
+        <span class="value" th:text="${timestamp}">—</span>
+    </div>
+</div>
+
+<!-- Enlaces del sistema -->
+<div class="btn-group">
+    <!-- Redirección al panel principal -->
+    <a href="/formulario" class="btn btn-primary">🏠 Volver al Inicio</a>
+    <!-- Retorna a la página anterior mediante el historial del navegador -->
+    <a href="javascript:history.back()" class="btn btn-secondary">↩ Regresar</a>
+</div>
+
+<!-- Pie de página descriptivo -->
+<footer>
+    <p>Plataforma <span>SENA GDF</span> · Gestión de Formación Profesional</p>
+</footer>
+
+</body>
+</html>

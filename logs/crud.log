@@ -1,0 +1,356 @@
+2026-06-26 06:42:25 [INFO ] [http-nio-8080-exec-7] com.sena.springpoo.controller.ControllerUsuarios — Intento de login: docs=CC / 1023632480
+2026-06-26 06:42:25 [INFO ] [http-nio-8080-exec-7] com.sena.springpoo.controller.ControllerUsuarios — Login exitoso para: 1023632480
+2026-06-26 06:42:25 [INFO ] [http-nio-8080-exec-10] com.sena.springpoo.controller.NuevoController — Vista solicitada: /nuevo/prueba (Usuarios SENA GDF)
+2026-06-26 06:42:30 [INFO ] [http-nio-8080-exec-4] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 06:42:47 [INFO ] [http-nio-8080-exec-8] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=1, size=6, search=)
+2026-06-26 06:42:49 [INFO ] [http-nio-8080-exec-9] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 06:43:34 [INFO ] [http-nio-8080-exec-1] com.sena.springpoo.controller.ControllerUsuarios — REST: Intentando guardar usuario documento=1234567890
+2026-06-26 06:43:34 [INFO ] [http-nio-8080-exec-1] com.sena.springpoo.controller.ControllerUsuarios — REST: Usuario guardado con éxito ID=28
+2026-06-26 06:43:34 [INFO ] [http-nio-8080-exec-5] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 07:19:27 [INFO ] [http-nio-8080-exec-3] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=1, size=6, search=)
+2026-06-26 07:34:10 [INFO ] [http-nio-8080-exec-7] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=2)
+2026-06-26 07:34:11 [INFO ] [http-nio-8080-exec-10] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=28)
+2026-06-26 07:34:12 [INFO ] [http-nio-8080-exec-4] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=2)
+2026-06-26 07:34:12 [INFO ] [http-nio-8080-exec-8] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 07:40:20 [INFO ] [http-nio-8080-exec-2] com.sena.springpoo.controller.ControllerUsuarios — Intento de login: docs=CC / 1023632480
+2026-06-26 07:40:20 [INFO ] [http-nio-8080-exec-2] com.sena.springpoo.controller.ControllerUsuarios — Login exitoso para: 1023632480
+2026-06-26 07:40:20 [INFO ] [http-nio-8080-exec-3] com.sena.springpoo.controller.NuevoController — Vista solicitada: /nuevo/prueba (Usuarios SENA GDF)
+2026-06-26 07:40:20 [INFO ] [http-nio-8080-exec-6] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 07:45:50 [INFO ] [http-nio-8080-exec-2] com.sena.springpoo.controller.ControllerUsuarios — Intento de login: docs=CC / 1023632480
+2026-06-26 07:46:14 [INFO ] [http-nio-8080-exec-3] com.sena.springpoo.controller.ControllerUsuarios — Intento de login: docs=CC / 1023632480
+2026-06-26 07:46:16 [INFO ] [http-nio-8080-exec-3] com.sena.springpoo.controller.ControllerUsuarios — Login exitoso para: 1023632480
+2026-06-26 07:46:16 [INFO ] [http-nio-8080-exec-2] com.sena.springpoo.controller.ControllerUsuarios — Login exitoso para: 1023632480
+2026-06-26 07:46:16 [INFO ] [http-nio-8080-exec-6] com.sena.springpoo.controller.NuevoController — Vista solicitada: /nuevo/prueba (Usuarios SENA GDF)
+2026-06-26 07:46:16 [INFO ] [http-nio-8080-exec-7] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 07:49:13 [INFO ] [http-nio-8080-exec-8] com.sena.springpoo.controller.NuevoController — Vista solicitada: /nuevo/prueba (Usuarios SENA GDF)
+2026-06-26 07:49:13 [INFO ] [http-nio-8080-exec-9] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 08:12:23 [INFO ] [http-nio-8080-exec-4] com.sena.springpoo.controller.ControllerUsuarios — Intento de login: docs=CC / 1023632480
+2026-06-26 08:12:23 [INFO ] [http-nio-8080-exec-4] com.sena.springpoo.controller.ControllerUsuarios — Login exitoso para: 1023632480
+2026-06-26 08:12:23 [INFO ] [http-nio-8080-exec-5] com.sena.springpoo.controller.NuevoController — Vista solicitada: /nuevo/prueba (Usuarios SENA GDF)
+2026-06-26 08:12:38 [INFO ] [http-nio-8080-exec-7] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 08:12:44 [INFO ] [http-nio-8080-exec-6] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=1)
+2026-06-26 08:13:32 [INFO ] [http-nio-8080-exec-9] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 08:14:50 [INFO ] [http-nio-8080-exec-10] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=2)
+2026-06-26 08:14:51 [INFO ] [http-nio-8080-exec-1] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=28)
+2026-06-26 08:14:52 [INFO ] [http-nio-8080-exec-2] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=2)
+2026-06-26 08:14:52 [INFO ] [http-nio-8080-exec-3] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 08:14:52 [INFO ] [http-nio-8080-exec-4] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=2)
+2026-06-26 08:14:53 [INFO ] [http-nio-8080-exec-5] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=29)
+2026-06-26 08:14:53 [INFO ] [http-nio-8080-exec-7] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=2)
+2026-06-26 08:14:53 [INFO ] [http-nio-8080-exec-6] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 08:14:54 [INFO ] [http-nio-8080-exec-9] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=3)
+2026-06-26 08:14:56 [INFO ] [http-nio-8080-exec-8] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=3)
+2026-06-26 08:14:56 [INFO ] [http-nio-8080-exec-10] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=3)
+2026-06-26 08:14:56 [INFO ] [http-nio-8080-exec-1] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:14:57 [INFO ] [http-nio-8080-exec-1] com.sena.springpoo.controller.NuevoController — Vista solicitada: /nuevo/prueba (Usuarios SENA GDF)
+2026-06-26 09:14:57 [INFO ] [http-nio-8080-exec-2] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:15:05 [INFO ] [http-nio-8080-exec-4] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=8)
+2026-06-26 09:15:15 [INFO ] [http-nio-8080-exec-3] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:15:17 [INFO ] [http-nio-8080-exec-5] com.sena.springpoo.controller.NuevoController — Vista solicitada: /nuevo/prueba (Usuarios SENA GDF)
+2026-06-26 09:15:17 [INFO ] [http-nio-8080-exec-6] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:15:20 [INFO ] [http-nio-8080-exec-7] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=9)
+2026-06-26 09:15:23 [INFO ] [http-nio-8080-exec-8] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:15:28 [INFO ] [http-nio-8080-exec-9] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=6)
+2026-06-26 09:15:31 [INFO ] [http-nio-8080-exec-10] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:15:43 [INFO ] [http-nio-8080-exec-1] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=9)
+2026-06-26 09:19:58 [INFO ] [http-nio-8080-exec-2] com.sena.springpoo.controller.NuevoController — Vista solicitada: /nuevo/prueba (Usuarios SENA GDF)
+2026-06-26 09:19:59 [INFO ] [http-nio-8080-exec-1] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:20:04 [INFO ] [http-nio-8080-exec-3] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=9)
+2026-06-26 09:20:05 [INFO ] [http-nio-8080-exec-4] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:20:06 [INFO ] [http-nio-8080-exec-5] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=9)
+2026-06-26 09:20:07 [INFO ] [http-nio-8080-exec-7] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:20:08 [INFO ] [http-nio-8080-exec-6] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=7)
+2026-06-26 09:20:10 [INFO ] [http-nio-8080-exec-8] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:20:12 [INFO ] [http-nio-8080-exec-9] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=1)
+2026-06-26 09:20:13 [INFO ] [http-nio-8080-exec-10] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:20:15 [INFO ] [http-nio-8080-exec-2] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=4)
+2026-06-26 09:20:16 [INFO ] [http-nio-8080-exec-1] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:20:18 [INFO ] [http-nio-8080-exec-3] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=2)
+2026-06-26 09:20:18 [INFO ] [http-nio-8080-exec-4] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=24)
+2026-06-26 09:20:19 [INFO ] [http-nio-8080-exec-5] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=2)
+2026-06-26 09:20:19 [INFO ] [http-nio-8080-exec-7] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:20:21 [INFO ] [http-nio-8080-exec-6] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=6)
+2026-06-26 09:20:22 [INFO ] [http-nio-8080-exec-8] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:22:20 [INFO ] [http-nio-8080-exec-10] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=7
+2026-06-26 09:22:26 [INFO ] [http-nio-8080-exec-2] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=7
+2026-06-26 09:22:26 [INFO ] [http-nio-8080-exec-1] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=7
+2026-06-26 09:22:26 [INFO ] [http-nio-8080-exec-3] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=7
+2026-06-26 09:22:26 [INFO ] [http-nio-8080-exec-4] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=7
+2026-06-26 09:22:26 [INFO ] [http-nio-8080-exec-5] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=7
+2026-06-26 09:22:27 [INFO ] [http-nio-8080-exec-7] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=7
+2026-06-26 09:22:27 [INFO ] [http-nio-8080-exec-6] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=7
+2026-06-26 09:22:55 [INFO ] [http-nio-8080-exec-8] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=7
+2026-06-26 09:24:00 [INFO ] [http-nio-8080-exec-2] com.sena.springpoo.controller.NuevoController — Vista solicitada: /nuevo/prueba (Usuarios SENA GDF)
+2026-06-26 09:24:01 [INFO ] [http-nio-8080-exec-1] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:24:07 [INFO ] [http-nio-8080-exec-3] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=8)
+2026-06-26 09:24:08 [INFO ] [http-nio-8080-exec-4] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:24:09 [INFO ] [http-nio-8080-exec-5] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=5)
+2026-06-26 09:24:10 [INFO ] [http-nio-8080-exec-6] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=58)
+2026-06-26 09:24:10 [INFO ] [http-nio-8080-exec-7] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=5)
+2026-06-26 09:24:10 [INFO ] [http-nio-8080-exec-8] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:29:44 [INFO ] [http-nio-8080-exec-10] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=3
+2026-06-26 09:29:51 [INFO ] [http-nio-8080-exec-2] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=3
+2026-06-26 09:41:02 [INFO ] [http-nio-8080-exec-1] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=3
+2026-06-26 09:49:39 [ERROR] [http-nio-8080-exec-3] com.sena.springpoo.controller.CustomErrorController — Error 404 detectado en ruta: /nuevo/pruebafhbfb - Mensaje: Lo sentimos, el recurso que buscas no está disponible o ha ocurrido un problema técnico en la plataforma SENA GDF.
+2026-06-26 09:49:47 [ERROR] [http-nio-8080-exec-4] com.sena.springpoo.controller.CustomErrorController — Error 404 detectado en ruta: /nuevo/pruebafhbfb - Mensaje: Lo sentimos, el recurso que buscas no está disponible o ha ocurrido un problema técnico en la plataforma SENA GDF.
+2026-06-26 09:49:48 [INFO ] [http-nio-8080-exec-5] com.sena.springpoo.controller.NuevoController — Vista solicitada: /nuevo/prueba (Usuarios SENA GDF)
+2026-06-26 09:49:49 [INFO ] [http-nio-8080-exec-6] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 09:51:41 [INFO ] [http-nio-8080-exec-8] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=1, size=6, search=)
+2026-06-26 09:52:46 [INFO ] [http-nio-8080-exec-9] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=27
+2026-06-26 10:07:04 [INFO ] [http-nio-8080-exec-2] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=7)
+2026-06-26 10:07:05 [INFO ] [http-nio-8080-exec-3] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 10:07:06 [INFO ] [http-nio-8080-exec-4] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=6)
+2026-06-26 10:07:07 [INFO ] [http-nio-8080-exec-5] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 10:33:22 [INFO ] [http-nio-8080-exec-1] com.sena.springpoo.controller.NuevoController — Vista solicitada: /nuevo/prueba (Usuarios SENA GDF)
+2026-06-26 10:33:23 [INFO ] [http-nio-8080-exec-2] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 10:33:46 [INFO ] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Iniciando carga de usuarios desde archivo: usuarios_sena_v2.csv
+2026-06-26 10:33:46 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Encabezado ignorado: primerNombre,segundoNombre,primerApellido,segundoApellido,tipoDocumento,documento,celular,grupoFormacion,correoElectronico,contrasena. Separador detectado: ','
+2026-06-26 10:33:46 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Juan guardado con éxito.
+2026-06-26 10:33:46 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Fila 3: detectado usuario existente para actualizar (Documento: 1017333444)
+2026-06-26 10:33:46 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Maria guardado con éxito.
+2026-06-26 10:33:46 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Fila 4: detectado usuario existente para actualizar (Documento: 987654321)
+2026-06-26 10:33:46 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Edwy guardado con éxito.
+2026-06-26 10:33:46 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Andres guardado con éxito.
+2026-06-26 10:33:46 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Laura guardado con éxito.
+2026-06-26 10:33:46 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Santiago guardado con éxito.
+2026-06-26 10:33:47 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Camila guardado con éxito.
+2026-06-26 10:33:47 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Daniel guardado con éxito.
+2026-06-26 10:33:47 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Valentina guardado con éxito.
+2026-06-26 10:33:47 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Sebastian guardado con éxito.
+2026-06-26 10:33:47 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Luisa guardado con éxito.
+2026-06-26 10:33:47 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Miguel guardado con éxito.
+2026-06-26 10:33:47 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Paula guardado con éxito.
+2026-06-26 10:33:47 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Esteban guardado con éxito.
+2026-06-26 10:33:47 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Diana guardado con éxito.
+2026-06-26 10:33:47 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Felipe guardado con éxito.
+2026-06-26 10:33:48 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Natalia guardado con éxito.
+2026-06-26 10:33:48 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Carlos guardado con éxito.
+2026-06-26 10:33:48 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Alejandra guardado con éxito.
+2026-06-26 10:33:48 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario David guardado con éxito.
+2026-06-26 10:33:48 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Isabela guardado con éxito.
+2026-06-26 10:33:48 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Nicolas guardado con éxito.
+2026-06-26 10:33:48 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Mariana guardado con éxito.
+2026-06-26 10:33:48 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Jhon guardado con éxito.
+2026-06-26 10:33:48 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Stefania guardado con éxito.
+2026-06-26 10:33:49 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Ricardo guardado con éxito.
+2026-06-26 10:33:49 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Juliana guardado con éxito.
+2026-06-26 10:33:49 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Camilo guardado con éxito.
+2026-06-26 10:33:49 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Manuela guardado con éxito.
+2026-06-26 10:33:49 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Kevin guardado con éxito.
+2026-06-26 10:33:49 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Sara guardado con éxito.
+2026-06-26 10:33:49 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Tomas guardado con éxito.
+2026-06-26 10:33:49 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Daniela guardado con éxito.
+2026-06-26 10:33:49 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Jorge guardado con éxito.
+2026-06-26 10:33:50 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Paola guardado con éxito.
+2026-06-26 10:33:50 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario William guardado con éxito.
+2026-06-26 10:33:50 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Adriana guardado con éxito.
+2026-06-26 10:33:50 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Cristian guardado con éxito.
+2026-06-26 10:33:50 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Lina guardado con éxito.
+2026-06-26 10:33:50 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Oscar guardado con éxito.
+2026-06-26 10:33:50 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Jessica guardado con éxito.
+2026-06-26 10:33:50 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Fabian guardado con éxito.
+2026-06-26 10:33:50 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Xiomara guardado con éxito.
+2026-06-26 10:33:51 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Mauricio guardado con éxito.
+2026-06-26 10:33:51 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Yuliana guardado con éxito.
+2026-06-26 10:33:51 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Ivan guardado con éxito.
+2026-06-26 10:33:51 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Lorena guardado con éxito.
+2026-06-26 10:33:51 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Bryan guardado con éxito.
+2026-06-26 10:33:51 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Yesenia guardado con éxito.
+2026-06-26 10:33:51 [DEBUG] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Usuario Harold guardado con éxito.
+2026-06-26 10:33:51 [INFO ] [http-nio-8080-exec-3] com.sena.springpoo.controller.FileUploadController — Carga de usuarios finalizada. Insertados: 48, Actualizados: 2, Errores: 0
+2026-06-26 10:33:51 [INFO ] [http-nio-8080-exec-4] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 10:34:37 [INFO ] [http-nio-8080-exec-5] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=9, size=6, search=)
+2026-06-26 10:34:42 [INFO ] [http-nio-8080-exec-6] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=1, size=6, search=)
+2026-06-26 10:51:52 [INFO ] [http-nio-8080-exec-8] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=5, size=6, search=)
+2026-06-26 10:56:06 [INFO ] [http-nio-8080-exec-10] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 10:56:08 [INFO ] [http-nio-8080-exec-1] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=2, size=6, search=)
+2026-06-26 10:56:16 [INFO ] [http-nio-8080-exec-2] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=4, size=6, search=)
+2026-06-26 10:56:17 [INFO ] [http-nio-8080-exec-3] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=5, size=6, search=)
+2026-06-26 10:56:18 [INFO ] [http-nio-8080-exec-4] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=3, size=6, search=)
+2026-06-26 10:57:34 [INFO ] [http-nio-8080-exec-6] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=38
+2026-06-26 10:57:34 [INFO ] [http-nio-8080-exec-7] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=3, size=6, search=)
+2026-06-26 10:58:20 [ERROR] [http-nio-8080-exec-8] com.sena.springpoo.controller.CustomErrorController — Error 500 detectado en ruta: /nuevo/prueba - Mensaje: No se ha podido establecer la conexión con el servidor de la base de datos (MySQL). Asegúrate de que MySQL esté activo en XAMPP.
+org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:84) ~[spring-jdbc-6.2.7.jar:6.2.7]
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:388) ~[spring-jdbc-6.2.7.jar:6.2.7]
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:444) ~[spring-jdbc-6.2.7.jar:6.2.7]
+	at com.sena.springpoo.filter.DatabaseConnectionFilter.doFilter(DatabaseConnectionFilter.java:66) ~[classes/:?]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:125) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:235) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter.doFilter(AbstractAuthenticationProcessingFilter.java:229) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.5.0.jar:6.5.0]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319) ~[spring-security-config-6.5.0.jar:6.5.0]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$3(HandlerMappingIntrospector.java:243) ~[spring-webmvc-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) [spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) [spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240) [spring-security-config-6.5.0.jar:6.5.0]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) [spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) [spring-web-6.2.7.jar:6.2.7]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) [spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) [spring-web-6.2.7.jar:6.2.7]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) [spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) [spring-web-6.2.7.jar:6.2.7]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:91) [spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) [spring-web-6.2.7.jar:6.2.7]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) [spring-web-6.2.7.jar:6.2.7]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) [spring-web-6.2.7.jar:6.2.7]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) [tomcat-embed-core-10.1.41.jar:10.1.41]
+	at java.base/java.lang.Thread.run(Thread.java:840) [?:?]
+Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30009ms (total=0, active=0, idle=0, waiting=0)
+	at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:709) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:188) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:146) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:127) ~[HikariCP-6.3.0.jar:?]
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:160) ~[spring-jdbc-6.2.7.jar:6.2.7]
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:118) ~[spring-jdbc-6.2.7.jar:6.2.7]
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:81) ~[spring-jdbc-6.2.7.jar:6.2.7]
+	... 87 more
+Caused by: com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:837) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:420) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:238) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:139) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:368) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:205) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:483) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:747) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:726) ~[HikariCP-6.3.0.jar:?]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[?:?]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[?:?]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[?:?]
+	... 1 more
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at jdk.internal.reflect.GeneratedConstructorAccessor43.newInstance(Unknown Source) ~[?:?]
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45) ~[?:?]
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500) ~[?:?]
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481) ~[?:?]
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.NativeSession.connect(NativeSession.java:142) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:961) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:420) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:238) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:139) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:368) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:205) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:483) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:747) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:726) ~[HikariCP-6.3.0.jar:?]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[?:?]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[?:?]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[?:?]
+	... 1 more
+Caused by: java.net.ConnectException: Connection refused: getsockopt
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method) ~[?:?]
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:684) ~[?:?]
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547) ~[?:?]
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602) ~[?:?]
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327) ~[?:?]
+	at java.base/java.net.Socket.connect(Socket.java:633) ~[?:?]
+	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.NativeSession.connect(NativeSession.java:142) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:961) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:420) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:238) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180) ~[mysql-connector-j-9.2.0.jar:9.2.0]
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:139) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:368) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:205) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:483) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:747) ~[HikariCP-6.3.0.jar:?]
+	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:726) ~[HikariCP-6.3.0.jar:?]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264) ~[?:?]
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[?:?]
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[?:?]
+	... 1 more
+2026-06-26 10:58:44 [INFO ] [http-nio-8080-exec-9] com.sena.springpoo.controller.NuevoController — Vista solicitada: /nuevo/prueba (Usuarios SENA GDF)
+2026-06-26 10:58:44 [INFO ] [http-nio-8080-exec-10] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 10:59:29 [INFO ] [http-nio-8080-exec-1] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=23
+2026-06-26 11:00:06 [INFO ] [http-nio-8080-exec-2] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=23
+2026-06-26 11:02:43 [INFO ] [http-nio-8080-exec-4] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=23
+2026-06-26 11:02:43 [ERROR ] [http-nio-8080-exec-5] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=23
+2026-06-26 11:02:43 [ERROR ] [http-nio-8080-exec-6] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=23
+2026-06-26 11:02:44 [ERROR ] [http-nio-8080-exec-7] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=23
+2026-06-26 11:02:44 [ERROR ] [http-nio-8080-exec-8] com.sena.springpoo.controller.ControllerUsuarios — REST: Actualizando usuario ID=23
+2026-06-26 11:04:41 [INFO ] [http-nio-8080-exec-1] com.sena.springpoo.controller.NuevoController — Vista solicitada: /nuevo/prueba (Usuarios SENA GDF)
+2026-06-26 11:04:42 [INFO ] [http-nio-8080-exec-2] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)
+2026-06-26 11:04:47 [ERROR] [http-nio-8080-exec-3] com.sena.springpoo.controller.CustomErrorController — Error 404 detectado en ruta: /nuevo/pruebaHRFHFH - Mensaje: Lo sentimos, el recurso que buscas no está disponible o ha ocurrido un problema técnico en la plataforma SENA GDF.
+2026-06-26 11:06:29 [INFO ] [http-nio-8080-exec-5] com.sena.springpoo.controller.NuevoController — Vista solicitada: /nuevo/prueba (Usuarios SENA GDF)
+2026-06-26 11:06:29 [INFO ] [http-nio-8080-exec-6] com.sena.springpoo.controller.ControllerUsuarios — REST: Consultando lista de usuarios (page=0, size=6, search=)

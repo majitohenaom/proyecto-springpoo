@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Configuración de Log4j2 para la gestión de registros del sistema (SENA GDF).
+  Define propiedades de rutas, formatos, appenders (salidas de log) y loggers específicos.
+-->
+<Configuration status="WARN">
+
+    <Properties>
+        <!-- Directorio donde se almacenarán los archivos físicos de log -->
+        <Property name="LOG_DIR">logs</Property>
+        
+        <!-- 
+          Patrón de formato para los logs:
+          %d: fecha y hora
+          %-5level: nivel de severidad alineado (DEBUG, INFO, WARN, ERROR, FATAL)
+          %t: nombre del hilo que genera el log
+          %logger{36}: nombre del logger acortado a 36 caracteres
+          %msg: mensaje principal del log
+          %n: salto de línea
+        -->
+        <Property name="PATRON">%d{yyyy-MM-dd HH:mm:ss} [%-5level] [%t] %logger{36} — %msg%n</Property>
+    </Properties>
+
+    <Appenders>
+
+        <!-- Consola: Salida estándar de logs en la terminal de ejecución -->
+        <Console name="Consola" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PATRON}"/>
+        </Console>
+
+        <!-- 
+          ArchivoGeneral: Registra todos los logs de nivel INFO o superior de la aplicación.
+          Implementa políticas de rotación de archivos (Rollover):
+          - Diaria: rota a la medianoche.
+          - Por tamaño: rota cuando el archivo 'app.log' alcanza 5MB.
+          Conserva un máximo de 30 archivos históricos en formato comprimido (.gz).
+        -->
+        <RollingFile name="ArchivoGeneral"
+                      fileName="${LOG_DIR}/app.log"
+                      filePattern="${LOG_DIR}/app-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATRON}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="5MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+        <!-- 
+          ArchivoErrores: Registra ÚNICAMENTE eventos de nivel ERROR y FATAL.
+          Usa un filtro de umbral (ThresholdFilter) para denegar cualquier log menor a ERROR.
+          Ideal para el monitoreo de fallos críticos del sistema, excepciones SQL y desconexión de servicios.
+        -->
+        <RollingFile name="ArchivoErrores"
+                      fileName="${LOG_DIR}/errores.log"
+                      filePattern="${LOG_DIR}/errores-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATRON}"/>
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="5MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+        <!-- 
+          ArchivoCrud: Registra las operaciones CRUD realizadas en los controladores.
+          Ayuda a tener una auditoría rápida de qué registros se crean, modifican o eliminan.
+        -->
+        <RollingFile name="ArchivoCrud"
+                      fileName="${LOG_DIR}/crud.log"
+                      filePattern="${LOG_DIR}/crud-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="${PATRON}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+        <!-- 
+          Logger para los controladores de la aplicación:
+          Establece nivel DEBUG para ver el flujo completo de peticiones.
+          additivity="false" evita que los logs de este logger se dupliquen en el Root logger.
+        -->
+        <Logger name="com.sena.springpoo.controller" level="DEBUG" additivity="false">
+            <AppenderRef ref="Consola"/>
+            <AppenderRef ref="ArchivoCrud"/>
+            <AppenderRef ref="ArchivoErrores"/>
+        </Logger>
+
+        <!-- Logger raíz global del sistema: maneja librerías externas de Spring y dependencias -->
+        <Root level="INFO">
+            <AppenderRef ref="Consola"/>
+            <AppenderRef ref="ArchivoGeneral"/>
+            <AppenderRef ref="ArchivoErrores"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
