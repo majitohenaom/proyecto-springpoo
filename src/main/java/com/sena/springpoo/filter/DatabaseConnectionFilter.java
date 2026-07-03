@@ -1,85 +1,86 @@
-package com.sena.springpoo.filter;
+package com.sena.springpoo.filter; // Define el paquete de esta clase; pertenece a la capa filter, encargada de interceptar peticiones antes de los controladores.
 
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import jakarta.servlet.*; // Importa interfaces de Servlet como Filter, ServletRequest, ServletResponse, FilterChain, ServletException y RequestDispatcher.
+import jakarta.servlet.http.*; // Importa clases HTTP como HttpServletRequest, necesarias para leer método y URI de la petición.
+import org.apache.logging.log4j.LogManager; // Importa LogManager para crear el logger de esta clase.
+import org.apache.logging.log4j.Logger; // Importa Logger para registrar errores o eventos en los logs del sistema.
+import org.springframework.beans.factory.annotation.Autowired; // Importa @Autowired para que Spring inyecte dependencias automáticamente.
+import org.springframework.jdbc.core.JdbcTemplate; // Importa JdbcTemplate, herramienta de Spring para ejecutar consultas SQL directas.
+import org.springframework.stereotype.Component; // Importa @Component para registrar esta clase como bean administrado por Spring.
 
-import java.io.IOException;
+import java.io.IOException; // Importa IOException; puede ocurrir al reenviar la petición o continuar la cadena de filtros.
 
 /**
- * Filtro HTTP para interceptar y verificar la conectividad de la base de datos 
- * en cada petición de navegación hacia las vistas HTML de la aplicación.
+ * Filtro HTTP que verifica si la base de datos está disponible antes de cargar vistas HTML.
  * <p>
- * Este filtro evita que el usuario vea un error no controlado si el servicio de MySQL 
- * está apagado (ej. en XAMPP). Ejecuta una consulta rápida ("SELECT 1") antes de 
- * cargar la vista; si falla, delega la petición al {@code /error} controlador 
- * generando un amigable error 500.
+ * Este filtro se ejecuta antes de que la petición llegue a los controladores.
+ * Su objetivo es evitar que el usuario vea un error técnico cuando MySQL está apagado.
+ * </p>
+ * <p>
+ * Para comprobar la conexión ejecuta {@code SELECT 1}, una consulta liviana que no modifica datos.
+ * Si la consulta falla, la petición se reenvía internamente a {@code /error} para que
+ * {@link com.sena.springpoo.controller.CustomErrorController} muestre una página amigable.
  * </p>
  */
-@Component
-public class DatabaseConnectionFilter implements Filter {
+@Component // Registra este filtro como bean de Spring; Spring Boot lo detecta y lo agrega a la cadena de filtros web.
+public class DatabaseConnectionFilter implements Filter { // Declara la clase filtro; implementa Filter para interceptar peticiones HTTP.
 
-    private static final Logger log = LogManager.getLogger(DatabaseConnectionFilter.class);
+    private static final Logger log = LogManager.getLogger(DatabaseConnectionFilter.class); // Crea un logger estático para registrar fallos de conexión a base de datos.
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    @Autowired // Spring inyecta automáticamente JdbcTemplate usando la configuración de datasource de application.properties.
+    private JdbcTemplate jdbcTemplate; // Variable usada para ejecutar una consulta SQL rápida contra MySQL.
 
     /**
-     * Intercepta la petición HTTP para comprobar el estado de la base de datos.
+     * Intercepta cada petición HTTP y decide si debe comprobar la conexión a la base de datos.
      * <p>
-     * Se filtran las peticiones para ejecutar la comprobación únicamente en los 
-     * métodos GET dirigidos a las rutas de navegación (ignorando API REST, carga de archivos,
-     * recursos estáticos y páginas de error).
+     * Modificador: {@code public}, porque implementa el método de la interfaz {@link Filter}.
+     * Tipo de retorno: {@code void}, por lo tanto no retorna ningún valor.
+     * </p>
+     * <p>
+     * Aunque no retorna un objeto, puede producir dos resultados:
+     * continuar la petición con {@code chain.doFilter(...)} o reenviarla a {@code /error}
+     * si la base de datos no responde.
      * </p>
      *
-     * @param request El objeto {@link ServletRequest} con los datos de la petición cliente.
-     * @param response El objeto {@link ServletResponse} para enviar la respuesta.
-     * @param chain El objeto {@link FilterChain} que permite continuar con la cadena de filtros.
-     * @throws IOException Si ocurre un error de entrada/salida.
-     * @throws ServletException Si ocurre un error a nivel de Servlet.
+     * @param request petición entrante enviada por el navegador o cliente HTTP.
+     * @param response respuesta que el servidor podrá devolver al cliente.
+     * @param chain cadena de filtros que permite continuar hacia otros filtros y luego hacia el controlador.
+     * @throws IOException si ocurre un problema de entrada/salida durante el forward o la continuación.
+     * @throws ServletException si ocurre un error del contenedor Servlet.
      */
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    @Override // Indica que este método sobrescribe doFilter de la interfaz Filter.
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) // Método principal del filtro; no retorna nada porque su tipo es void.
+            throws IOException, ServletException { // Declara que puede lanzar IOException o ServletException.
 
-        HttpServletRequest req = (HttpServletRequest) request;
-        String method = req.getMethod();
-        String uri = req.getRequestURI();
+        HttpServletRequest req = (HttpServletRequest) request; // Convierte ServletRequest a HttpServletRequest para poder leer método HTTP y URI.
+        String method = req.getMethod(); // Obtiene el método HTTP de la petición, por ejemplo GET, POST, PUT o DELETE.
+        String uri = req.getRequestURI(); // Obtiene la ruta solicitada, por ejemplo /login, /formulario o /nuevo/prueba.
 
-        // Solo verificar en peticiones GET de navegación (vistas HTML)
-        if ("GET".equalsIgnoreCase(method)) {
-            // Evitar recursos estáticos, endpoints REST de datos y la propia ruta de error
-            if (!uri.startsWith("/error") &&
-                    !uri.startsWith("/usuarios/") &&
-                    !uri.startsWith("/nuevo/productos") &&
-                    !uri.startsWith("/nuevo/imagen") &&
-                    !uri.startsWith("/upload/") &&
-                    !uri.contains(".") &&
-                    !uri.startsWith("/favicon")) {
+        if ("GET".equalsIgnoreCase(method)) { // Solo revisa conexión para peticiones GET, normalmente usadas para navegar entre vistas.
+            if (!uri.startsWith("/error") && // Evita revisar la ruta /error para no crear un bucle infinito de errores.
+                    !uri.startsWith("/usuarios/") && // Evita endpoints REST de usuarios, porque esos manejan sus propios errores JSON.
+                    !uri.startsWith("/nuevo/productos") && // Evita endpoints REST de productos, que ya manejan errores desde NuevoController.
+                    !uri.startsWith("/nuevo/imagen") && // Evita endpoint de imagen del panel, porque no necesita validar vista completa.
+                    !uri.startsWith("/upload/") && // Evita endpoints de carga de archivos.
+                    !uri.contains(".") && // Evita archivos estáticos o rutas con extensión, como .css, .js, .png o .html.
+                    !uri.startsWith("/favicon")) { // Evita la petición automática del favicon del navegador.
 
-                try {
-                    // Ejecuta una consulta rápida de prueba
-                    jdbcTemplate.execute("SELECT 1");
-                } catch (Exception e) {
-                    log.error("🔌 Conexión a Base de Datos fallida al acceder a {}: {}", uri, e.getMessage());
-                    
-                    // Configurar atributos de error para redirigir a la vista de error 500
-                    request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, 500);
-                    request.setAttribute(RequestDispatcher.ERROR_EXCEPTION, e);
-                    request.setAttribute(RequestDispatcher.ERROR_MESSAGE, "La base de datos (MySQL) está apagada o no disponible.");
-                    request.setAttribute(RequestDispatcher.ERROR_REQUEST_URI, uri);
+                try { // Intenta ejecutar una consulta mínima para comprobar si MySQL responde.
+                    jdbcTemplate.execute("SELECT 1"); // Ejecuta SELECT 1; no retorna datos útiles al controlador, solo valida conexión activa.
+                } catch (Exception e) { // Captura cualquier error de conexión, SQL o disponibilidad de base de datos.
+                    log.error("Conexión a Base de Datos fallida al acceder a {}: {}", uri, e.getMessage()); // Registra la URI y el mensaje del fallo.
 
-                    // Redirigir internamente al manejador de errores
-                    req.getRequestDispatcher("/error").forward(request, response);
-                    return;
+                    request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, 500); // Guarda el código de error 500 para que /error lo pueda leer.
+                    request.setAttribute(RequestDispatcher.ERROR_EXCEPTION, e); // Guarda la excepción original para diagnóstico y logs.
+                    request.setAttribute(RequestDispatcher.ERROR_MESSAGE, "La base de datos (MySQL) está apagada o no disponible."); // Guarda mensaje amigable para la vista.
+                    request.setAttribute(RequestDispatcher.ERROR_REQUEST_URI, uri); // Guarda la ruta original donde ocurrió el problema.
+
+                    req.getRequestDispatcher("/error").forward(request, response); // Reenvía internamente la petición al controlador global de errores.
+                    return; // Detiene el filtro para que la petición no continúe hacia el controlador original.
                 }
             }
         }
 
-        chain.doFilter(request, response);
+        chain.doFilter(request, response); // Continúa con la cadena de filtros y luego con el controlador si no hubo error.
     }
 }
