@@ -1,125 +1,131 @@
-package com.sena.springpoo.controller;
+package com.sena.springpoo.controller; // Define el paquete donde está este controlador; pertenece a la capa controller del proyecto Springpoo.
 
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.boot.web.servlet.error.ErrorController;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import jakarta.servlet.RequestDispatcher; // Importa RequestDispatcher; permite leer atributos estándar que el servidor guarda cuando ocurre un error HTTP.
+import jakarta.servlet.http.HttpServletRequest; // Importa HttpServletRequest; representa la petición HTTP y permite obtener datos del error, ruta y atributos internos.
+import org.springframework.boot.web.servlet.error.ErrorController; // Importa ErrorController; interfaz usada por Spring Boot para personalizar el manejo global de errores.
+import org.springframework.http.HttpStatus; // Importa HttpStatus; permite trabajar con códigos HTTP como 404, 403 y 500.
+import org.springframework.stereotype.Controller; // Importa @Controller; marca la clase como controlador MVC que retorna vistas Thymeleaf.
+import org.springframework.ui.Model; // Importa Model; permite enviar datos desde Java hacia la vista HTML.
+import org.springframework.web.bind.annotation.GetMapping; // Importa @GetMapping; sirve para mapear peticiones HTTP GET.
+import org.springframework.web.bind.annotation.RequestMapping; // Importa @RequestMapping; sirve para mapear una ruta HTTP general.
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import java.util.Date;
+import org.apache.logging.log4j.LogManager; // Importa LogManager; permite crear un logger para esta clase.
+import org.apache.logging.log4j.Logger; // Importa Logger; permite registrar errores y mensajes en los archivos de logs.
+import java.util.Date; // Importa Date; se usa para generar la fecha y hora del error.
 
 /**
- * Controlador global para la captura y manejo de errores HTTP y excepciones del sistema.
+ * Controlador global encargado de manejar errores HTTP y excepciones del sistema.
  * <p>
- * Implementa la interfaz {@link ErrorController} de Spring Boot para interceptar
- * cualquier error (como 404, 403, 500) y mostrar una página de error amigable,
- * además de registrar los detalles en los logs del sistema.
+ * Esta clase intercepta errores como 404, 403 y 500 mediante la ruta especial
+ * {@code /error}, que Spring Boot usa cuando ocurre un fallo durante una petición.
+ * </p>
+ * <p>
+ * Su función dentro de Springpoo es mostrar páginas de error amigables usando
+ * Thymeleaf, enviar información del error al modelo y registrar el problema
+ * en los logs configurados con Log4j2.
  * </p>
  */
-@Controller
-public class CustomErrorController implements ErrorController {
+@Controller // Registra esta clase como controlador de Spring MVC; sus métodos pueden retornar nombres de plantillas HTML.
+public class CustomErrorController implements ErrorController { // Declara el controlador y usa ErrorController para integrarse con el sistema de errores de Spring Boot.
 
-    private static final Logger log = LogManager.getLogger(CustomErrorController.class);
+    private static final Logger log = LogManager.getLogger(CustomErrorController.class); // Crea un logger estático para registrar errores detectados por este controlador.
 
     /**
-     * Endpoint de prueba para forzar y simular un error 500 (Error interno del servidor).
-     * 
-     * @return No retorna una vista, lanza directamente una {@link RuntimeException}.
+     * Endpoint de prueba que fuerza un error 500.
+     * <p>
+     * Modificador: {@code public}. Retorno declarado: {@code String}, aunque en la práctica
+     * no alcanza a retornar una vista porque lanza una excepción.
+     * </p>
+     *
+     * @return no retorna normalmente; siempre lanza RuntimeException.
      */
-    @GetMapping("/generar-error-500")
-    public String generarError500() {
-        throw new RuntimeException("Error de conexión a base de datos simulado (Communications link failure / Connection refused).");
+    @GetMapping("/generar-error-500") // Mapea peticiones GET a /generar-error-500; se usa para probar la página de error 500.
+    public String generarError500() { // Método público sin parámetros; declarado como String porque normalmente un controlador retorna una vista.
+        throw new RuntimeException("Error de conexión a base de datos simulado (Communications link failure / Connection refused)."); // Lanza una excepción manual para que Spring redirija el flujo hacia /error.
     }
 
     /**
-     * Intercepta las solicitudes dirigidas a "/error" y procesa la excepción o el código de estado.
+     * Maneja la ruta global {@code /error}.
      * <p>
-     * Este método extrae el código HTTP, la URI solicitada, y la excepción subyacente.
-     * Dependiendo del tipo de error (por ejemplo, si la base de datos está caída o si la ruta no existe),
-     * genera un mensaje personalizado y lo añade al modelo para ser mostrado en las plantillas 
-     * Thymeleaf de error ("500" o "error"). Además, registra el incidente en los logs.
+     * Spring Boot envía aquí las peticiones que fallaron por errores HTTP o excepciones.
+     * El método lee el estado, la excepción, el mensaje y la ruta original, construye
+     * un mensaje entendible y decide qué plantilla mostrar.
      * </p>
      *
-     * @param request El objeto {@link HttpServletRequest} que contiene los atributos del error despachado.
-     * @param model El objeto {@link Model} utilizado para pasar los detalles del error a la vista.
-     * @return El nombre de la plantilla Thymeleaf a renderizar ({@code "500"} si es error del servidor, {@code "error"} para el resto).
+     * @param request petición HTTP que contiene atributos internos del error.
+     * @param model modelo usado para enviar datos a las plantillas error.html o 500.html.
+     * @return {@code "500"} si el error es 500; {@code "error"} para otros errores.
      */
-    @RequestMapping("/error")
-    public String handleError(HttpServletRequest request, Model model) {
-        Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        Object exception = request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
-        Object message = request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
-        Object requestUri = request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
+    @RequestMapping("/error") // Mapea cualquier petición dirigida a /error, sin limitarse a GET o POST.
+    public String handleError(HttpServletRequest request, Model model) { // Método principal de manejo de errores; recibe la petición y el modelo de vista.
+        Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE); // Obtiene el código HTTP del error, por ejemplo 404, 403 o 500.
+        Object exception = request.getAttribute(RequestDispatcher.ERROR_EXCEPTION); // Obtiene la excepción original si el error fue causado por una excepción Java.
+        Object message = request.getAttribute(RequestDispatcher.ERROR_MESSAGE); // Obtiene el mensaje asociado al error, si existe.
+        Object requestUri = request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI); // Obtiene la ruta original donde ocurrió el error.
 
-        int statusCode = 500;
-        if (status != null) {
-            try {
-                statusCode = Integer.parseInt(status.toString());
-            } catch (NumberFormatException e) {
-                // Mantener el valor por defecto
+        int statusCode = 500; // Declara el código de estado por defecto como 500; se usa si no se puede leer otro código.
+        if (status != null) { // Verifica si Spring o el servidor dejaron un código de estado en la petición.
+            try { // Intenta convertir el estado recibido a número entero.
+                statusCode = Integer.parseInt(status.toString()); // Convierte el atributo status a int; ejemplo: "404" pasa a 404.
+            } catch (NumberFormatException e) { // Captura error si el estado no puede convertirse a número.
+                // Mantiene statusCode en 500 porque no se pudo interpretar el código recibido.
             }
         }
 
-        HttpStatus httpStatus = HttpStatus.resolve(statusCode);
-        String errorTitle = (httpStatus != null) ? httpStatus.getReasonPhrase() : "Error Detectado";
-        
-        boolean bdApagada = false;
-        if (exception != null) {
-            Throwable causa = (Throwable) exception;
-            while (causa != null) {
-                String msg = causa.getMessage();
-                if (msg != null && (
-                        msg.contains("Communications link failure") ||
-                        msg.contains("Connection refused") ||
-                        msg.contains("JDBC") ||
-                        msg.contains("SQL") ||
-                        causa instanceof java.sql.SQLException ||
-                        causa instanceof java.net.ConnectException
-                )) {
-                    bdApagada = true;
-                    break;
+        HttpStatus httpStatus = HttpStatus.resolve(statusCode); // Convierte el número HTTP en un objeto HttpStatus si Spring lo reconoce.
+        String errorTitle = (httpStatus != null) ? httpStatus.getReasonPhrase() : "Error Detectado"; // Define el título del error; usa texto oficial si existe.
+
+        boolean bdApagada = false; // Variable booleana que indica si el error parece causado por MySQL apagado o conexión fallida.
+        if (exception != null) { // Verifica si existe una excepción asociada al error.
+            Throwable causa = (Throwable) exception; // Convierte el objeto exception a Throwable para recorrer sus causas internas.
+            while (causa != null) { // Recorre la cadena de excepciones hasta que no haya más causas.
+                String msg = causa.getMessage(); // Obtiene el mensaje de la causa actual.
+                if (msg != null && ( // Verifica que el mensaje no sea null antes de buscar textos dentro.
+                        msg.contains("Communications link failure") || // Detecta error típico de conexión JDBC perdida.
+                                msg.contains("Connection refused") || // Detecta cuando MySQL rechaza la conexión.
+                                msg.contains("JDBC") || // Detecta errores relacionados con JDBC.
+                                msg.contains("SQL") || // Detecta errores relacionados con SQL.
+                                causa instanceof java.sql.SQLException || // Detecta excepciones SQL directamente.
+                                causa instanceof java.net.ConnectException // Detecta errores de conexión de red.
+                )) { // Si cualquiera de esas condiciones se cumple, se considera error de base de datos.
+                    bdApagada = true; // Marca que probablemente MySQL está apagado o inaccesible.
+                    break; // Detiene el recorrido porque ya se identificó la causa.
                 }
-                causa = causa.getCause();
+                causa = causa.getCause(); // Avanza a la causa interna siguiente de la excepción.
             }
         }
 
-        String errorMsg = "";
-        if (statusCode == 404) {
-            errorMsg = "Lo sentimos, el recurso que buscas no está disponible o ha ocurrido un problema técnico en la plataforma SENA GDF.";
-        } else if (statusCode == 403) {
-            errorMsg = "Acceso denegado. No tienes permisos para acceder a esta sección de la plataforma SENA GDF.";
-        } else if (bdApagada) {
-            errorMsg = "No se ha podido establecer la conexión con el servidor de la base de datos (MySQL). Asegúrate de que MySQL esté activo en XAMPP.";
-        } else if (message != null && !message.toString().isEmpty()) {
-            errorMsg = message.toString();
-        } else {
-            errorMsg = "Ha ocurrido un problema interno en el servidor de la plataforma SENA GDF.";
+        String errorMsg = ""; // Declara el mensaje que se mostrará en la vista de error.
+        if (statusCode == 404) { // Si el código es 404, significa recurso o ruta no encontrada.
+            errorMsg = "Lo sentimos, el recurso que buscas no está disponible o ha ocurrido un problema técnico en la plataforma SENA GDF."; // Mensaje amigable para error 404.
+        } else if (statusCode == 403) { // Si el código es 403, significa acceso denegado.
+            errorMsg = "Acceso denegado. No tienes permisos para acceder a esta sección de la plataforma SENA GDF."; // Mensaje amigable para falta de permisos.
+        } else if (bdApagada) { // Si se detectó fallo de conexión con base de datos.
+            errorMsg = "No se ha podido establecer la conexión con el servidor de la base de datos (MySQL). Asegúrate de que MySQL esté activo en XAMPP."; // Mensaje específico para MySQL apagado.
+        } else if (message != null && !message.toString().isEmpty()) { // Si existe un mensaje de error proporcionado por Spring o el servidor.
+            errorMsg = message.toString(); // Usa ese mensaje como detalle principal.
+        } else { // Si no hay un caso específico ni mensaje disponible.
+            errorMsg = "Ha ocurrido un problema interno en el servidor de la plataforma SENA GDF."; // Mensaje genérico para errores internos.
         }
 
-        // Registrar error en los logs
-        if (statusCode >= 400) {
-            if (exception != null) {
-                log.error("Error {} detectado en ruta: {} - Mensaje: {}", statusCode, requestUri, errorMsg, (Throwable) exception);
-            } else {
-                log.error("Error {} detectado en ruta: {} - Mensaje: {}", statusCode, requestUri, errorMsg);
+        if (statusCode >= 400) { // Solo registra como error los estados HTTP 400 o superiores.
+            if (exception != null) { // Si existe excepción, se registra junto con su traza completa.
+                log.error("Error {} detectado en ruta: {} - Mensaje: {}", statusCode, requestUri, errorMsg, (Throwable) exception); // Escribe en logs el código, ruta, mensaje y excepción.
+            } else { // Si no existe excepción, registra solo los datos disponibles.
+                log.error("Error {} detectado en ruta: {} - Mensaje: {}", statusCode, requestUri, errorMsg); // Escribe en logs el código, ruta y mensaje.
             }
         }
 
-        model.addAttribute("status", statusCode);
-        model.addAttribute("error", errorTitle);
-        model.addAttribute("message", errorMsg);
-        model.addAttribute("bdApagada", bdApagada);
-        model.addAttribute("path", requestUri != null ? requestUri.toString() : "");
-        model.addAttribute("timestamp", new Date().toString());
+        model.addAttribute("status", statusCode); // Envía a Thymeleaf el código HTTP para mostrarlo en la página.
+        model.addAttribute("error", errorTitle); // Envía a Thymeleaf el título del error.
+        model.addAttribute("message", errorMsg); // Envía a Thymeleaf el mensaje amigable construido.
+        model.addAttribute("bdApagada", bdApagada); // Envía a Thymeleaf si el problema fue detectado como fallo de base de datos.
+        model.addAttribute("path", requestUri != null ? requestUri.toString() : ""); // Envía la ruta donde ocurrió el error o cadena vacía si no existe.
+        model.addAttribute("timestamp", new Date().toString()); // Envía la fecha y hora del error como texto.
 
-        if (statusCode == 500) {
-            return "500";
+        if (statusCode == 500) { // Si el error es interno del servidor.
+            return "500"; // Retorna la plantilla templates/500.html.
         }
-        return "error";
+        return "error"; // Retorna la plantilla templates/error.html para errores diferentes de 500.
     }
 }
